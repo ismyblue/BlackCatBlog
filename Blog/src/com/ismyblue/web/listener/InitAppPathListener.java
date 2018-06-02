@@ -10,8 +10,7 @@ public class InitAppPathListener implements ServletContextListener {
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
 		ConfigPathField.APPPATH_STRING = sce.getServletContext().getRealPath("");
-		System.out.println(ConfigPathField.APPPATH_STRING);
-		System.out.println("fsadfas");
+		System.out.println(ConfigPathField.APPPATH_STRING);	
 		
 	}
 

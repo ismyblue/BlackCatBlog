@@ -98,9 +98,6 @@ public class UsersServlet extends HttpServlet {
 	 * 更新一个用户
 	 */
 	public void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		User loguser = new User();
-		loguser.setUserPrivilege(UserPrivilegeTbField.ADMIN_STRING);
-		request.getSession().setAttribute(SessionAttr.USER_STRING, loguser);
 		
 		User user = new User();
 		try {

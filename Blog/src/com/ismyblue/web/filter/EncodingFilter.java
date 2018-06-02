@@ -14,6 +14,11 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
+import com.ismyblue.entity.User;
+import com.ismyblue.field.http.SessionAttr;
+import com.ismyblue.field.tbfdvalue.UserPrivilegeTbField;
+import com.ismyblue.service.UserService;
+
 /**
  * 
 *    
@@ -32,8 +37,11 @@ public class EncodingFilter implements Filter {
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response,
-			FilterChain chain) throws IOException, ServletException {
-
+			FilterChain chain) throws IOException, ServletException {		
+		
+		User loguser = new UserService().findUser(18);		
+		((HttpServletRequest) request).getSession().setAttribute(SessionAttr.USER_STRING, loguser);
+		
 		// 处理请求乱码
 		HttpServletRequest httpServletRequest = (HttpServletRequest) request;
 		HttpServletRequest myRequest = new MyRequest(httpServletRequest);		

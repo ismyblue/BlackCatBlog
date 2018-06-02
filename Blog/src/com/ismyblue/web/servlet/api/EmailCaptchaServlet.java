@@ -13,9 +13,6 @@ import com.ismyblue.util.SendEmailUtil;
 public class EmailCaptchaServlet extends HttpServlet {
 
 	
-	/**
-	 * @Fields serialVersionUID : TODO
-	 */
 	private static final long serialVersionUID = 1L;
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -24,6 +21,10 @@ public class EmailCaptchaServlet extends HttpServlet {
 		String type = request.getParameter("type");
 		if(type == null){
 			response.getWriter().write("failed: 请求类型(type)不对!(register/recover)");
+			return ;
+		}
+		if(email == null){
+			response.getWriter().write("failed: 没有email参数");
 			return ;
 		}
 		String message;
@@ -46,10 +47,6 @@ public class EmailCaptchaServlet extends HttpServlet {
 			response.getWriter().write("falied: " + e.getMessage());
 		}	
 		
-	}
-	
-	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doPost(request, response);
 	}
 	
 }
