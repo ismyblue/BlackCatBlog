@@ -11,30 +11,46 @@
  Target Server Version : 50721
  File Encoding         : 65001
 
- Date: 01/06/2018 22:36:37
+ Date: 04/06/2018 22:33:55
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
--- Table structure for t_category
+-- Table structure for t_categories
 -- ----------------------------
-DROP TABLE IF EXISTS `t_category`;
-CREATE TABLE `t_category`  (
+DROP TABLE IF EXISTS `t_categories`;
+CREATE TABLE `t_categories`  (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '文章分类id',
   `parent_id` int(11) NULL DEFAULT NULL COMMENT '父亲分类id',
   `user_id` int(11) NOT NULL COMMENT '用户id',
   `category_name` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '分类名称',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `AK_uq_gategory_name`(`category_name`) USING BTREE,
   INDEX `ind_user_id`(`user_id`) USING BTREE,
   INDEX `FK_parent_id`(`parent_id`) USING BTREE,
   INDEX `IND_PRIMARY`(`id`) USING BTREE,
   INDEX `ind_gategory_name`(`category_name`) USING BTREE,
-  CONSTRAINT `FK_parent_id` FOREIGN KEY (`parent_id`) REFERENCES `t_category` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `FK_parent_id` FOREIGN KEY (`parent_id`) REFERENCES `t_categories` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FK_user_id` FOREIGN KEY (`user_id`) REFERENCES `t_users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 47 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of t_categories
+-- ----------------------------
+INSERT INTO `t_categories` VALUES (0, 0, 0, '0');
+INSERT INTO `t_categories` VALUES (14, 0, 13, 'name');
+INSERT INTO `t_categories` VALUES (16, 0, 13, 'naame');
+INSERT INTO `t_categories` VALUES (23, 0, 14, 'nme');
+INSERT INTO `t_categories` VALUES (27, 14, 14, 'nme');
+INSERT INTO `t_categories` VALUES (28, 14, 14, 'nme');
+INSERT INTO `t_categories` VALUES (29, 0, 14, 'nme');
+INSERT INTO `t_categories` VALUES (30, 0, 14, 'nme');
+INSERT INTO `t_categories` VALUES (31, 31, 14, '文学分类');
+INSERT INTO `t_categories` VALUES (32, 32, 14, '文学分类');
+INSERT INTO `t_categories` VALUES (35, 35, 18, '文学分类');
+INSERT INTO `t_categories` VALUES (36, 36, 18, '文学分类');
+INSERT INTO `t_categories` VALUES (37, 14, 18, '文学分类');
 
 -- ----------------------------
 -- Table structure for t_comments
@@ -101,7 +117,7 @@ CREATE TABLE `t_posts`  (
   INDEX `ind_gategory_id`(`category_id`) USING BTREE,
   INDEX `ind_post_date`(`post_date`) USING BTREE,
   CONSTRAINT `FKK_user_id` FOREIGN KEY (`user_id`) REFERENCES `t_users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `FK_gategory_id` FOREIGN KEY (`category_id`) REFERENCES `t_category` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+  CONSTRAINT `FK_gategory_id` FOREIGN KEY (`category_id`) REFERENCES `t_categories` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '文章表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -127,17 +143,18 @@ CREATE TABLE `t_users`  (
   INDEX `IND_PRIMARY`(`id`) USING BTREE,
   INDEX `ind_user_nicename`(`user_nicename`) USING BTREE,
   INDEX `ind_user_login`(`user_login`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 33 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 37 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_users
 -- ----------------------------
-INSERT INTO `t_users` VALUES (13, 'admin', 'zhanghao', 'pass', 'huanghao', NULL, 'asdfasdfas@163.com', '', '2018-05-19 12:23:12', 'enable', 'sitename', '123.432.5234.32', 80);
+INSERT INTO `t_users` VALUES (0, 'user', '0', '0', '0', '/', '0', '0', '0001-01-01 01:01:01', 'disable', '0', '0', 0);
+INSERT INTO `t_users` VALUES (13, 'admin', 'zhanghao', 'pass', 'huanghao', '/', 'asdfasdfas@163.com', '', '2018-05-19 12:23:12', 'enable', 'sitename', '123.432.5234.32', 80);
 INSERT INTO `t_users` VALUES (14, 'admin', 'ronqian', 'pass', 'huanghao', '/', 'asdfasdfas@163.com', '', '2018-05-19 00:00:00', 'enable', 'sitename', '123.432.5234.32', 0);
 INSERT INTO `t_users` VALUES (15, 'admin', 'accountName', 'pass', 'huanghao', '/', 'asdfasdfas@163.com', '', '2018-05-19 12:23:12', 'enable', 'sitename', '123.432.5234.32', 0);
 INSERT INTO `t_users` VALUES (16, 'admin', 'Name', 'pass', 'huanghao', '/', 'asdfasdfas@163.com', '', '2018-05-19 00:00:00', 'enable', 'sitename', '123.432.5234.32', 0);
 INSERT INTO `t_users` VALUES (17, 'user', 'loginname', 'loginpass', 'loginname', '/', '114134963@qq.com', 'www.simyl.com', '2018-05-19 20:40:16', 'disable', 'fasfsad', 'fadsf', 0);
-INSERT INTO `t_users` VALUES (18, 'admin', 'huanghao', 'huanghao', '123412', '/', 'fas;ldkfja', 'fasdfas', '2018-05-20 20:20:59', 'enable', 'fjas;dlfa', 'ipipipip', 0);
+INSERT INTO `t_users` VALUES (18, 'admin', 'huanghao', 'huanghao', 'blues', '/avatar', 'ismyblue@163.com', 'www.ismyblue.com/ismyblule', '2018-05-20 20:20:59', 'enable', 'fjas;dlfa', 'ipipipip', 0);
 INSERT INTO `t_users` VALUES (19, 'admin', 'hao12341', '411234', 'huanghao', '/', 'ismyblue@163.com', 'asdfasga', '2018-05-20 20:24:03', 'enable', '45668', 'ipipipip', 0);
 INSERT INTO `t_users` VALUES (22, 'admin', '234534', '23542345', '23452345', '/', '2345234', '452345', '2018-05-20 20:25:16', 'enable', '5234523', 'ipipipip', 0);
 INSERT INTO `t_users` VALUES (23, 'user', 'huhuwslSYT', 'wslSYT', 'huhu', '/', 'ismyblue@163.com', 'fasdfasd', '2018-05-20 22:08:53', 'enable', 'huahgao', '0:0:0:0:0:0:0:1', 0);
@@ -149,5 +166,16 @@ INSERT INTO `t_users` VALUES (28, 'user', 'adsfadsfa', 'asdfadsf', 'gafgafdsfasd
 INSERT INTO `t_users` VALUES (29, 'user', 'adsfadsfare', 'qwerqwer', 'wrewqrqrwer', '/', 'gafgafdsasdfasrqwerqd', 'gafgafdfqwerasdfass', '2018-05-29 22:24:16', 'enable', 'gafgafdsfasrqwerdds', '0:0:0:0:0:0:0:1', 0);
 INSERT INTO `t_users` VALUES (31, 'admin', 'lycwan', 'lycwanywn', 'nicename', '/avatarurl', 'ismgas', 'urlurl', '2018-12-12 00:00:00', 'enable', 'istenam', 'loginip', 12);
 INSERT INTO `t_users` VALUES (32, 'admin', 'lycahhybz', 'hhalycywn', 'adfa', '/', 'ismgas', 'urlurl', '2018-05-31 18:14:45', 'enable', 'istenam', '0:0:0:0:0:0:0:1', 0);
+
+-- ----------------------------
+-- Triggers structure for table t_categories
+-- ----------------------------
+DROP TRIGGER IF EXISTS `ins_categories`;
+delimiter ;;
+CREATE TRIGGER `ins_categories` BEFORE INSERT ON `t_categories` FOR EACH ROW begin  
+ set new.parent_id = 0;
+end
+;;
+delimiter ;
 
 SET FOREIGN_KEY_CHECKS = 1;
