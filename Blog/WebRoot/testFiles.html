@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>test</title>
+<script type="text/javascript" src="js/ajax.js"></script>
+<script type="text/javascript">
+	/* var xmlhttp = getXMLHttpRequst();
+	xmlhttp.onreadystatechange=function()
+	{
+		if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+		{
+			document.write(xmlhttp.responseText);
+			if(xmlhttp.responseText == "success"){
+				alert("注册成功！");
+			}
+		}
+	}
+	 xmlhttp.open("POST", "api/users?id=31&userPrivilege=admin&userLogin=lycabz&userPass=hhalycywn"+
+		"&userNicename=adfa&userAvatarUrl=/avatarurl&userEmail=ismgas&userUrl=urlurl&userRegistered=2018-12-12&userStatus=enable"+
+		"&siteName=istenam&loginIp=loginip&loginTimes=12" , true); 
+	//xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+	//xmlhttp.open("DELETE", "api/users?id=14" , true);
+	xmlhttp.send(); */
+	
+	
+</script>
+</head>
+<body>
+	<form action="api/files" method="post" enctype="multipart/form-data">
+		id:<input type="text" name="userId">
+		file:<input type="file" name="file">
+		<input type="submit" value="提交">
+	</form>
+		
+</body>
+</html>
