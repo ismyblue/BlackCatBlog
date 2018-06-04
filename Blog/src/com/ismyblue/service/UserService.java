@@ -39,7 +39,7 @@ public class UserService {
 	 * @param user
 	 * @return
 	 */
-	public User Login(User user) {
+	public User login(User user) {
 		UserDAO userDao = new UserDAOImpl();
 		User dbuser = userDao.findUserByUserLogin(user.getUserLogin());
 		if(dbuser == null)

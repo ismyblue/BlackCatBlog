@@ -16,7 +16,7 @@ package com.ismyblue.field.tbfdname;
  */
 public class CategoryFN {
 
-	public static final String TABLENAME_STRING = "t_category";
+	public static final String TABLENAME_STRING = "t_categories";
 	
 	public static final String ID_STRING = "id";
 	public static final String PARENTID_STRING = "parent_id";

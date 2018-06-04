@@ -42,7 +42,7 @@ public class DoLoginServlet extends HttpServlet {
 		}
 		User dbUser;
 		UserService userService = new UserService();
-		if((dbUser = userService.Login(user)) == null){			
+		if((dbUser = userService.login(user)) == null){			
 			request.setAttribute(RequestAttr.LOGINMSG_STRING, "用户登录失败");
 			request.getRequestDispatcher("/login.html").forward(request, response);
 		}else {	

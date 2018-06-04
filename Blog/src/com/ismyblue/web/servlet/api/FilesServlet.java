@@ -34,15 +34,16 @@ public class FilesServlet extends HttpServlet {
 			}
 			String userId = fileUploadUtil.getParamter("userId");
 			//只有管理员才能指定用户上传文件
-			if(userId != null && !loginedUser.getUserPrivilege().equals(UserPrivilegeTbField.ADMIN_STRING)){
+			if((userId != null && userId != "") && !loginedUser.getUserPrivilege().equals(UserPrivilegeTbField.ADMIN_STRING)){
 				response.getWriter().write("failed: 权限不够");
 				return ;
 			}
-			if(new UserService().findUser(Integer.parseInt(userId)) == null){
+			int id = (userId != null && userId != "")?loginedUser.getId():Integer.parseInt(userId);
+			if(new UserService().findUser(id) == null){
 				response.getWriter().write("failed:指定用户不存在");
 				return ;
-			}
-			int id = (userId == null)?loginedUser.getId():Integer.parseInt(userId);
+			}	
+			
 			try {			
 				fileUploadUtil.saveInToDir("upload" + File.separator + id);
 				//添加link到数据库			

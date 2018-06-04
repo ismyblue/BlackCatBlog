@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>test</title>
+<script type="text/javascript" src="js/ajax.js"></script>
+<script type="text/javascript">
+	var xmlhttp = getXMLHttpRequst();
+	xmlhttp.onreadystatechange=function()
+	{
+		if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+		{
+			document.write(xmlhttp.responseText);
+			if(xmlhttp.responseText == "success"){
+				alert("成功！");
+			}
+		}
+	}
+	 xmlhttp.open("DELETE", "api/categories?id=22&categoryName=文学分类" , true); 
+	//xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+	//xmlhttp.open("DELETE", "api/users?id=14" , true);
+	xmlhttp.send();
+	
+	
+</script>
+</head>
+<body>
+
+</body>
+</html>

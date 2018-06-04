@@ -35,6 +35,7 @@ public class UsersServlet extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		User user = new User();
 		try {
+			ConvertUtils.register(new DateLocaleConverter(), Date.class);
 			BeanUtils.populate(user, request.getParameterMap());
 		} catch (IllegalAccessException | InvocationTargetException e) {
 			e.printStackTrace();
@@ -142,7 +143,9 @@ public class UsersServlet extends HttpServlet {
 				
 	}
 	
-	
+	/**
+	 * 删除一个用户
+	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//处理获取用户个数请求		
 		UserService userService1 = new UserService();
