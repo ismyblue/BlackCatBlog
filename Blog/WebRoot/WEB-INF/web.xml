@@ -63,16 +63,20 @@
 		<url-pattern>/register.do</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
-		<servlet-name>UsersServlet</servlet-name>
-		<url-pattern>/api/users/*</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
 		<servlet-name>CaptchaServlet</servlet-name>
 		<url-pattern>/api/captcha</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>EmailCaptchaServlet</servlet-name>
 		<url-pattern>/api/emailcaptcha</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>UsersServlet</servlet-name>
+		<url-pattern>/api/users</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>UsersServlet</servlet-name>
+		<url-pattern>/api/users/amount</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>FilesServlet</servlet-name>
@@ -85,6 +89,10 @@
 	<servlet-mapping>
 		<servlet-name>CategoriesServlet</servlet-name>
 		<url-pattern>/api/categories</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>CategoriesServlet</servlet-name>
+		<url-pattern>/api/categories/amount</url-pattern>
 	</servlet-mapping>
 
 	<welcome-file-list>

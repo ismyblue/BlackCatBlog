@@ -147,10 +147,7 @@ public class UsersServlet extends HttpServlet {
 	 * 删除一个用户
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//处理获取用户个数请求		
-		UserService userService1 = new UserService();
-		request.getSession().setAttribute(SessionAttr.USER_STRING, userService1.findUser(14));
-		
+		//处理获取用户个数请求				
 		if(request.getRequestURI().endsWith("/api/users/amount")){
 			doGetAmount(request, response);			
 			return ;

@@ -149,5 +149,31 @@ public class CategoryDAOImpl implements CategoryDAO {
 		return categorys;		
 		
 	}
+
+
+	
+	@Override
+	public Category[] findCategoriesByParentId(int parentId) {
+		String sql = CategoryFN.SELECTPX_STRING + " where "+ CategoryFN.PARENTID_STRING +" = ?";
+		Map<String, Object>[] entitys = SqlUtil.executeQueryReturnMapArray(sql, parentId);	
+		if(entitys.length > 0)
+			return MapArrayToCategorys(entitys);
+		else {
+			return null;
+		}		
+	}
+
+
+
+	@Override
+	public Category[] findCategoriesByUserId(int userId) {
+		String sql = CategoryFN.SELECTPX_STRING + " where "+ CategoryFN.USERID_STRING +" = ?";
+		Map<String, Object>[] entitys = SqlUtil.executeQueryReturnMapArray(sql, userId);	
+		if(entitys.length > 0)
+			return MapArrayToCategorys(entitys);
+		else {
+			return null;
+		}	
+	}
 	
 }

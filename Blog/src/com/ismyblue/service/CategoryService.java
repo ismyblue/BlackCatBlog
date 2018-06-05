@@ -62,6 +62,27 @@ public class CategoryService {
 		return false;
 	}
 
+	
+	/**
+	 * 通过父亲id获得此分分类下的所有分类
+	 * @param parentId
+	 * @return
+	 */
+	public Category[] findCategoriesByParentId(int parentId) {
+		CategoryDAO categorydao = new CategoryDAOImpl();		
+		return categorydao.findCategoriesByParentId(parentId);
+	}
+
+	/**
+	 * 通过用户id获得此用户下的所有分类
+	 * @param userId
+	 * @return
+	 */
+	public Category[] findCategoriesByUserId(int userId) {
+		CategoryDAO categorydao = new CategoryDAOImpl();		
+		return categorydao.findCategoriesByUserId(userId);
+	}
+
 	/**
 	 * 获得分类总个数
 	 * 

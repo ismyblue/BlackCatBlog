@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletRequestWrapper;
 
 import com.ismyblue.entity.User;
 import com.ismyblue.field.http.SessionAttr;
-import com.ismyblue.field.tbfdvalue.UserPrivilegeTbField;
 import com.ismyblue.service.UserService;
 
 /**

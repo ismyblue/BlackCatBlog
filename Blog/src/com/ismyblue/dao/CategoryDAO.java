@@ -74,5 +74,19 @@ public interface CategoryDAO {
 	 * @return
 	 */
 	public Category[] findCategorys(Map<String, Object> paramsMap);
+
+	/**
+	 * 通过父亲id获得此分类下所有的子分类,没有则返回null
+	 * @param parentId
+	 * @return
+	 */
+	public Category[] findCategoriesByParentId(int parentId);
+
+	/**
+	 * 通过用户id获得此用户下所有的分类,没有则返回null
+	 * @param userId
+	 * @return
+	 */
+	public Category[] findCategoriesByUserId(int userId);
 	
 }
