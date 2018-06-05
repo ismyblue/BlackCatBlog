@@ -11,7 +11,7 @@
  Target Server Version : 50721
  File Encoding         : 65001
 
- Date: 04/06/2018 22:33:55
+ Date: 05/06/2018 12:07:01
 */
 
 SET NAMES utf8mb4;
@@ -33,24 +33,25 @@ CREATE TABLE `t_categories`  (
   INDEX `ind_gategory_name`(`category_name`) USING BTREE,
   CONSTRAINT `FK_parent_id` FOREIGN KEY (`parent_id`) REFERENCES `t_categories` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FK_user_id` FOREIGN KEY (`user_id`) REFERENCES `t_users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 47 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 48 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_categories
 -- ----------------------------
 INSERT INTO `t_categories` VALUES (0, 0, 0, '0');
-INSERT INTO `t_categories` VALUES (14, 0, 13, 'name');
-INSERT INTO `t_categories` VALUES (16, 0, 13, 'naame');
-INSERT INTO `t_categories` VALUES (23, 0, 14, 'nme');
+INSERT INTO `t_categories` VALUES (14, 0, 18, '历史分类');
+INSERT INTO `t_categories` VALUES (16, 0, 18, '历史分类');
+INSERT INTO `t_categories` VALUES (23, 0, 18, '历史分类');
 INSERT INTO `t_categories` VALUES (27, 14, 14, 'nme');
 INSERT INTO `t_categories` VALUES (28, 14, 14, 'nme');
-INSERT INTO `t_categories` VALUES (29, 0, 14, 'nme');
+INSERT INTO `t_categories` VALUES (29, 16, 19, '历史分类');
 INSERT INTO `t_categories` VALUES (30, 0, 14, 'nme');
 INSERT INTO `t_categories` VALUES (31, 31, 14, '文学分类');
 INSERT INTO `t_categories` VALUES (32, 32, 14, '文学分类');
 INSERT INTO `t_categories` VALUES (35, 35, 18, '文学分类');
 INSERT INTO `t_categories` VALUES (36, 36, 18, '文学分类');
 INSERT INTO `t_categories` VALUES (37, 14, 18, '文学分类');
+INSERT INTO `t_categories` VALUES (47, 14, 18, '测试分类');
 
 -- ----------------------------
 -- Table structure for t_comments
@@ -166,16 +167,5 @@ INSERT INTO `t_users` VALUES (28, 'user', 'adsfadsfa', 'asdfadsf', 'gafgafdsfasd
 INSERT INTO `t_users` VALUES (29, 'user', 'adsfadsfare', 'qwerqwer', 'wrewqrqrwer', '/', 'gafgafdsasdfasrqwerqd', 'gafgafdfqwerasdfass', '2018-05-29 22:24:16', 'enable', 'gafgafdsfasrqwerdds', '0:0:0:0:0:0:0:1', 0);
 INSERT INTO `t_users` VALUES (31, 'admin', 'lycwan', 'lycwanywn', 'nicename', '/avatarurl', 'ismgas', 'urlurl', '2018-12-12 00:00:00', 'enable', 'istenam', 'loginip', 12);
 INSERT INTO `t_users` VALUES (32, 'admin', 'lycahhybz', 'hhalycywn', 'adfa', '/', 'ismgas', 'urlurl', '2018-05-31 18:14:45', 'enable', 'istenam', '0:0:0:0:0:0:0:1', 0);
-
--- ----------------------------
--- Triggers structure for table t_categories
--- ----------------------------
-DROP TRIGGER IF EXISTS `ins_categories`;
-delimiter ;;
-CREATE TRIGGER `ins_categories` BEFORE INSERT ON `t_categories` FOR EACH ROW begin  
- set new.parent_id = 0;
-end
-;;
-delimiter ;
 
 SET FOREIGN_KEY_CHECKS = 1;
