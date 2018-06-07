@@ -50,6 +50,9 @@ public class CategoriesServlet extends HttpServlet {
 		if (category.getId() == 0 || !loginedUser.getUserPrivilege().equals(UserPrivilegeTbField.ADMIN_STRING)) {
 			category.setUserId(loginedUser.getId());
 		}
+		if(category.getUserId() == 0){
+			response.getWriter().print("failed: 未指定用户id");return ;
+		}
 		// 如果userId用户不存在，那么错误
 		if (new UserService().findUser(category.getUserId()) == null) {
 			response.getWriter().print("failed:分类属主用户不存在");
