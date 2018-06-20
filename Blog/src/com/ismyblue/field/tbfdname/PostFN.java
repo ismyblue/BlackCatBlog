@@ -36,7 +36,7 @@ public class PostFN {
 	public static final String COMMENTSTATUS_STRING = "comment_status";
 	public static final String POSTMODIFIED_STRING = "post_modified";
 	public static final String COMMENTCOUNT_STRING = "comment_count";
-	public static final String VISITCOUNT_STRING = "visit_Count";
+	public static final String VISITCOUNT_STRING = "visit_count";
 
 	/**
 	 * 插入语句

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>testPost</title>
+<script type="text/javascript" src="js/ajax.js"></script>
+<script type="text/javascript">
+	var xmlhttp = getXMLHttpRequst();
+	xmlhttp.onreadystatechange=function()
+	{
+		if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+		{
+			document.write(xmlhttp.responseText);
+			if(xmlhttp.responseText == "success"){
+				alert("成功！");
+			}else{
+				alert("失败！")
+			}			
+		}
+	}
+	/* {
+	"userId": 60379,
+	"categoryId": 60682,
+	"postTitle": "9TO2w8Fu0u",
+	"postContent": "kxcCe5NHIx",
+	"postDate": true,
+	"postExcerpt": "rLoFgzbfrq",
+	"postStatus": "wX9V3yeQAX",
+	"commentStatus": "TYobYAmpt4",
+	"postModified": "e2261TxYU5"
+	} */
+	 xmlhttp.open("PUT", "api/posts?id=3&userId=18&categoryId=36&postTitle=无敌大魔王&postContent=postContentStr"+
+	 "&postDate=2018-08-08&postExcerpt=postExcerptStr&"+
+	 "postStatus=postStatusStr&commentStatus=commentStatusStr&postModified=2018-08-08" , true); 
+	//xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+	//xmlhttp.open("DELETE", "api/users?id=14" , true);
+	xmlhttp.send();
+	
+	
+</script>
+</head>
+<body>
+
+</body>
+</html>

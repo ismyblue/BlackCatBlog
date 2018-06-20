@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>testPost</title>
+<script type="text/javascript" src="js/ajax.js"></script>
+<script type="text/javascript">
+	var xmlhttp = getXMLHttpRequst();
+	xmlhttp.onreadystatechange=function()
+	{
+		if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+		{
+			document.write(xmlhttp.responseText);
+			if(xmlhttp.responseText == "success"){
+				alert("成功！");
+			}else{
+				alert("失败！")
+			}			
+		}
+	}
+	/*  
+	{
+		"userId": 60762,
+		"linkName": "LGO7L8XNoF",
+		"linkUrl": "http://qux.mvpmra.tspzsnn",
+		"linkDescription": "SnJnMm39hJ",
+		"linkDelete": "CGLBZWUcaT"
+	}*/
+	 xmlhttp.open("DELETE", "api/links?id=1&userId=18&linkName=头像&linkUrl=/asf/sdf.jpg&linkDescription=descstring", true); 
+	//xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+	//xmlhttp.open("DELETE", "api/users?id=14" , true);
+	xmlhttp.send();
+	
+	
+</script>
+</head>
+<body>
+
+</body>
+</html>

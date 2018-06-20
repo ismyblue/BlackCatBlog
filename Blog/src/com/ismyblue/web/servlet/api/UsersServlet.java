@@ -144,7 +144,7 @@ public class UsersServlet extends HttpServlet {
 	}
 	
 	/**
-	 * 删除一个用户
+	 * 更新一个用户
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//处理获取用户个数请求				

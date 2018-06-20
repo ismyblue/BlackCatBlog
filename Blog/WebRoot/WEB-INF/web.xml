@@ -52,6 +52,11 @@
 		<servlet-name>CategoriesServlet</servlet-name>
 		<servlet-class>com.ismyblue.web.servlet.api.CategoriesServlet</servlet-class>
 	</servlet>
+  <servlet>
+    <servlet-name>LinksServlet</servlet-name>
+    <servlet-class>com.ismyblue.web.servlet.api.LinksServlet</servlet-class>
+  </servlet>
+
 
 
 	<servlet-mapping>
@@ -94,6 +99,10 @@
 		<servlet-name>CategoriesServlet</servlet-name>
 		<url-pattern>/api/categories/amount</url-pattern>
 	</servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>LinksServlet</servlet-name>
+    <url-pattern>/api/links</url-pattern>
+  </servlet-mapping>
 
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>

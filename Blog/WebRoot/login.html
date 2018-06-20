@@ -46,7 +46,7 @@
     <script>
         function changeCaptcha(){
             var picture = document.getElementById("img-captcha");
-                picture.src = "http://140.143.96.92/Blog/getcaptcha.do? "+ Math.random();
+                picture.src = "http://ismyblue.com/Blog/api/captcha? "+ Math.random();
         }
     </script>
 
@@ -62,8 +62,8 @@
                 <!----------注册和登陆-------->
                 <div class="index_tab">
                     <div class="index_nav">
-                        <a href="http://localhost:63342/Hao/with%20Hao/login.html?_ijt=et5avrmg6umfagrtn7rof2i3l7">登陆</a>
-                        <a href="http://localhost:63342/Hao/with%20Hao/register.html?_ijt=f71amvhrd6kksk3u47qgoupn05">注册</a>
+                        <a href="login.html">登陆</a>
+                        <a href="register.html">注册</a>
                     </div>
                 </div >
                 <!-------输入用户名或者 邮箱、   密码、验证码------>
@@ -81,7 +81,7 @@
                         <div class="group_captcha">
                             验证码：
                             <input id="captcha" type="text" name="captcha"placeholder="输入验证码" />
-                               <img id="img-captcha" src="http://140.143.96.92/Blog/getcaptcha.do" onclick="changeCaptcha()"/> <a href="javascript:changeCaptcha()" style="color: azure ;display: inline-block;position: relative;bottom: -8px">刷新</a>
+                               <img id="img-captcha" src="http://ismyblue.com/Blog/api/captcha" onclick="changeCaptcha()"/> <a href="javascript:changeCaptcha()" style="color: azure ;display: inline-block;position: relative;bottom: -8px">刷新</a>
                         </div>
                     </div>
                 </div>

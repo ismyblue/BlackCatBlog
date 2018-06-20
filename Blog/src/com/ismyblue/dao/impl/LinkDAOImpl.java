@@ -1,5 +1,6 @@
 package com.ismyblue.dao.impl;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import com.ismyblue.dao.LinkDAO;
@@ -104,15 +105,15 @@ public class LinkDAOImpl implements LinkDAO {
 		if(size > 0)
 			params = new Object[size];
 		
-		int i = 0;		
+		int num = 0;		
 		for(Map.Entry<String, Object> e : paramsMap.entrySet()){
-			params[i] = e.getValue();
-			if(i != 0){
+			if(num > 0){
 				sqlsb.append(" and ");				
 			}
-			i++;
+			
 			sqlsb.append(e.getKey());
-			sqlsb.append("=?");			
+			sqlsb.append("=?");		
+			params[num++] = e.getValue();
 		}
 		Map<String, Object>[] mapArry = SqlUtil.executeQueryReturnMapArray(sqlsb.toString(), params);
 		return  MapArrayToLinks(mapArry);
@@ -149,6 +150,15 @@ public class LinkDAOImpl implements LinkDAO {
 		}
 		return links;		
 		
+	}
+
+
+	
+	@Override
+	public Link[] findLinksByUserId(int userId) {
+		Map<String, Object> paramsMap = new HashMap<String, Object>();
+		paramsMap.put(LinkFN.USERID_STRING, userId);		
+		return findLinks(paramsMap);
 	}
 	
 

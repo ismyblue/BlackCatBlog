@@ -22,7 +22,7 @@
 
 <body>
 	
-	验证码：<input type='text' name='captcha' /><img src='getcaptcha.do' /><a href='javascript():changeCaptcha()'>刷新验证码</a>
+	验证码：<input type='text' name='captcha' /><img src='http://ismyblue.com/Blog/api/captcha' /><a href='javascript():changeCaptcha()'>刷新验证码</a>
 	
 	
 </body>

@@ -75,6 +75,20 @@ public interface PostDAO {
 	 * @return
 	 */
 	public Post[] findPosts(Map<String, Object> paramsMap);
+
+	/**
+	 * 通过用户id查找此用户下的所有文章
+	 * @param userId
+	 * @return
+	 */
+	public Post[] findPostsByUserId(int userId);
+
+	/**
+	 * 通过分类id查找此分类下的所有文章
+	 * @param categoryId
+	 * @return
+	 */
+	public Post[] findPostsByCategoryId(int categoryId);
 	
 	
 	

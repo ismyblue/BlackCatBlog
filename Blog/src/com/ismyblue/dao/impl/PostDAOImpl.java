@@ -1,6 +1,7 @@
 package com.ismyblue.dao.impl;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 import com.ismyblue.dao.PostDAO;
@@ -100,19 +101,20 @@ public class PostDAOImpl implements PostDAO {
 	@Override
 	public Post[] findPosts(Map<String, Object> paramsMap) {
 		StringBuffer sqlsb = new StringBuffer(PostFN.SELECTPX_STRING + " where ");
-		Object[] params = null;
+		Object[] params = null;		
 		int size = paramsMap.size();
 		if(size > 0)
 			params = new Object[size];
 		
-		boolean flag = false;		
+		int num = 0;		
 		for(Map.Entry<String, Object> e : paramsMap.entrySet()){
-			if(flag == true){
-				sqlsb.append("and");
-				flag = false;
+			if(num > 0){
+				sqlsb.append("and");				
 			}
+			
 			sqlsb.append(e.getKey());
-			sqlsb.append(" = ?");		
+			sqlsb.append(" = ?");	
+			params[num++] = e.getValue();
 		}
 		
 		Map<String, Object>[] mapArry = SqlUtil.executeQueryReturnMapArray(sqlsb.toString(), params);
@@ -153,6 +155,22 @@ public class PostDAOImpl implements PostDAO {
 			}
 		}
 		return posts;		
+		
+	}
+
+	
+	@Override
+	public Post[] findPostsByUserId(int userId) {
+		Map<String, Object> paramsMap = new HashMap<String, Object>();
+		paramsMap.put(PostFN.USERID_STRING, userId);
+		return findPosts(paramsMap);
+	}
+
+	@Override
+	public Post[] findPostsByCategoryId(int categoryId) {
+		Map<String, Object> paramsMap = new HashMap<String, Object>();
+		paramsMap.put(PostFN.CATEGORYID_STRING, categoryId);
+		return findPosts(paramsMap);
 		
 	}
 

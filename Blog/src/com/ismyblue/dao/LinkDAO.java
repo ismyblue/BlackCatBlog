@@ -75,8 +75,13 @@ public interface LinkDAO {
 	 * @return
 	 */
 	public Link[] findLinks(Map<String, Object> paramsMap);
-	
-	
-	
+
+	/**
+	 * 通过用户id来查找此用户下的所有链接
+	 * @param userId
+	 * @return
+	 */
+	public Link[] findLinksByUserId(int userId);
+		
 }
 
