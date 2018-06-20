@@ -44,7 +44,7 @@ public class EncodingFilter implements Filter {
 		// 处理请求乱码
 		HttpServletRequest httpServletRequest = (HttpServletRequest) request;
 		HttpServletRequest myRequest = new MyRequest(httpServletRequest);		
-		if(myRequest.getServletPath().equals("/api/captcha")){
+		if(myRequest.getServletPath().equals("/api/captcha") || myRequest.getServletPath().contains(".htm")){
 			chain.doFilter(myRequest, response);
 			return ;
 		}			
