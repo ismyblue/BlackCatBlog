@@ -89,6 +89,22 @@ public interface PostDAO {
 	 * @return
 	 */
 	public Post[] findPostsByCategoryId(int categoryId);
+
+	/**
+	 * 通过指定分类id,指定文章页码，每页文章数量来获取文章
+	 * @param categoryId 分类id
+	 * @param page 页码数
+	 * @param count 每页文章数量
+	 * @return Post[]
+	 */
+	public Post[] getPostsByPage(int categoryId, int page, int count);
+
+	/**
+	 * 通过指定分类id，获得此分类下文章的数量
+	 * @param categoryId
+	 * @return
+	 */
+	public long getAmount(int categoryId);
 	
 	
 	

@@ -52,10 +52,10 @@
 		<servlet-name>CategoriesServlet</servlet-name>
 		<servlet-class>com.ismyblue.web.servlet.api.CategoriesServlet</servlet-class>
 	</servlet>
-  <servlet>
-    <servlet-name>LinksServlet</servlet-name>
-    <servlet-class>com.ismyblue.web.servlet.api.LinksServlet</servlet-class>
-  </servlet>
+	<servlet>
+		<servlet-name>LinksServlet</servlet-name>
+		<servlet-class>com.ismyblue.web.servlet.api.LinksServlet</servlet-class>
+	</servlet>
 
 
 
@@ -90,6 +90,7 @@
 	<servlet-mapping>
 		<servlet-name>PostsServlet</servlet-name>
 		<url-pattern>/api/posts</url-pattern>
+		<url-pattern>/api/posts/amount</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>CategoriesServlet</servlet-name>
@@ -99,10 +100,11 @@
 		<servlet-name>CategoriesServlet</servlet-name>
 		<url-pattern>/api/categories/amount</url-pattern>
 	</servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>LinksServlet</servlet-name>
-    <url-pattern>/api/links</url-pattern>
-  </servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>LinksServlet</servlet-name>
+		<url-pattern>/api/links</url-pattern>
+		<url-pattern>/api/links/amount</url-pattern>
+	</servlet-mapping>
 
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
@@ -112,4 +114,13 @@
 		<welcome-file>default.htm</welcome-file>
 		<welcome-file>default.jsp</welcome-file>
 	</welcome-file-list>
+
+	<!-- <error-page>
+		<error-code>404</error-code>
+		<location>/error.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>500</error-code>
+		<location>/error.jsp</location>
+	</error-page> -->
 </web-app>

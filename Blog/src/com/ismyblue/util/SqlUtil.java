@@ -361,7 +361,7 @@ public class SqlUtil {
 			preparedStatement = connection.prepareStatement(sql);
 			//System.out.println(preparedStatement);
 			setPreparedStatementAllParams(preparedStatement, params);
-//			System.out.println(preparedStatement);
+			System.out.println(preparedStatement);
 			resultSet = preparedStatement.executeQuery();
 			ResultSetMetaData metaData = resultSet.getMetaData();			
 			int colCount = metaData.getColumnCount();			

@@ -188,11 +188,9 @@ public class UserDAOImpl implements UserDAO {
 		for(Map.Entry<String, Object> e : r[0].entrySet()){
 			return (long) e.getValue();			
 		}
-		return -1;				
+		return 0;				
 	}
 
-
-	
 	@Override
 	public User[] findUsersByPage(int page, int count) {
 		String sql = UserFN.SELECTPX_STRING + " limit ?,?";

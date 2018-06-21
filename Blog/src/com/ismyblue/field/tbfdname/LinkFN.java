@@ -48,5 +48,9 @@ public class LinkFN {
 	public static final String UPDATEPX_STRING = "update " + TABLENAME_STRING +" set "+USERID_STRING+"=?,"+LINKNAME_STRING+"=?,"
 			+LINKURL_STRING+"=?,"+LINKDESCRIPTION_STRING +"=?,"+LINKDELETE_STRING+"=? ";
 	
+	/*
+	 * 获得链接总数量 
+	 */
+	public static final String GETCOUNT_STRING = "select count(?)" + " from " + TABLENAME_STRING;
 	
 }

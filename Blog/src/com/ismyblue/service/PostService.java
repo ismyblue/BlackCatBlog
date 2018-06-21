@@ -82,6 +82,29 @@ public class PostService {
 		Post[] posts = postdao.findPostsByCategoryId(categoryId);
 		return posts;
 	}
+
+	
+	/**
+	 * 通过指定分类id，指定页码数，指定每页文章的数量来获取文章
+	 * @param categoryId 分类id
+	 * @param page 页码数
+	 * @param count 每页文章的数量
+	 * @return Post[]
+	 */
+	public Post[] getPosts(int categoryId, int page, int count) {
+		PostDAO postDAO = new PostDAOImpl();		
+		return postDAO.getPostsByPage(categoryId, page, count);
+	}
+
+	/**
+	 * 通过指定分类id获得此分类下的文章数量
+	 * @param categoryId
+	 * @return
+	 */
+	public long getAmount(int categoryId) {
+		PostDAO postDAO = new PostDAOImpl();		
+		return postDAO.getAmount(categoryId);
+	}
 	
 	
 }

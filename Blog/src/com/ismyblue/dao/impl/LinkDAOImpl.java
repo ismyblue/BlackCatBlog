@@ -17,7 +17,6 @@ public class LinkDAOImpl implements LinkDAO {
 		return SqlUtil.executeNonQuery(sql, params);
 	}
 
-
 	/**
 	 * 不建议使用
 	 */
@@ -40,7 +39,6 @@ public class LinkDAOImpl implements LinkDAO {
 		Object param = link.getId();
 		return SqlUtil.executeNonQuery(sql, param);
 	}
-
 	
 	/**
 	 * 不建议使用
@@ -62,10 +60,9 @@ public class LinkDAOImpl implements LinkDAO {
 	public int updateLink(Link link) {		
 		String sql = LinkFN.UPDATEPX_STRING + " where id=? ";
 		
-		Object[] params = {link.getUserId(),link.getLinkName(),link.getLinkUrl(),link.getLinkDescription(),link.getLinkDelete()};		
+		Object[] params = {link.getUserId(),link.getLinkName(),link.getLinkUrl(),link.getLinkDescription(),link.getLinkDelete(),link.getId()};		
 		return SqlUtil.executeNonQuery(sql, params);
 	}
-
 	
 	/**
 	 * 返回成功的条数
@@ -152,13 +149,30 @@ public class LinkDAOImpl implements LinkDAO {
 		
 	}
 
-
-	
 	@Override
 	public Link[] findLinksByUserId(int userId) {
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put(LinkFN.USERID_STRING, userId);		
 		return findLinks(paramsMap);
+	}
+	
+	@Override	
+	public Link[] getLinksByPage(int userId, int page, int count) {
+		String sql = LinkFN.SELECTPX_STRING + " where " + LinkFN.USERID_STRING + " = ? limit ?,?";
+		Object[] params = {userId, (page-1)*count, count};
+		Map<String, Object>[] r = SqlUtil.executeQueryReturnMapArray(sql,params);
+		return MapArrayToLinks(r);
+	}
+	
+	@Override
+	public long getAmount(int userId) {
+		String sql = LinkFN.GETCOUNT_STRING + " where " + LinkFN.USERID_STRING + " = ?";
+		Object[] params = {LinkFN.ID_STRING, userId};
+		Map<String, Object>[] r = SqlUtil.executeQueryReturnMapArray(sql, params);
+		for(Map.Entry<String, Object> e : r[0].entrySet()){
+			return (long) e.getValue();			
+		}
+		return 0;
 	}
 	
 

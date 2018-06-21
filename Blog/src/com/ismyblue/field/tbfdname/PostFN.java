@@ -63,7 +63,11 @@ public class PostFN {
 			+POSTTITLE_STRING+"=?,"+POSTCONTENT_STRING +"=?,"+POSTDATE_STRING+"=?,"+POSTEXCERPT_STRING+"=?,"+POSTSTATUS_STRING+"=?,"
 			+COMMENTSTATUS_STRING+"=?,"+POSTMODIFIED_STRING+"=?,"+COMMENTCOUNT_STRING+"=?,"+VISITCOUNT_STRING + "=? ";
 	
-	
+
+	/*
+	 * 获得文章总数量 
+	 */
+	public static final String GETCOUNT_STRING = "select count(?)" + " from " + TABLENAME_STRING;
 	
 	
 }

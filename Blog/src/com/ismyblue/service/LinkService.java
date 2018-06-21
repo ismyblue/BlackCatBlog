@@ -71,6 +71,27 @@ public class LinkService {
 		Link[] links = linkdao.findLinksByUserId(userId);
 		return links;
 	}
+	
+	/**
+	 * 分页查找某个用户的所有链接link
+	 * @param userId 用户id
+	 * @param page 页码数
+	 * @param count 每页的link数量
+	 * @return Link[]
+	 */
+	public Link[] getLinks(int userId, int page, int count) {
+		LinkDAO linkDAO = new LinkDAOImpl();		
+		return linkDAO.getLinksByPage(userId, page, count);
+	}
+
+	
+	/*
+	 * 通过用户id获得链接个数,没有则返回0
+	 */
+	public long getAmount(int userId) {
+		LinkDAO linkDAO = new LinkDAOImpl();		
+		return linkDAO.getAmount(userId);
+	}
 
 
 	

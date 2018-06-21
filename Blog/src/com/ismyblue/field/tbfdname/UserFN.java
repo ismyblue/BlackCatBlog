@@ -63,6 +63,9 @@ public class UserFN {
 			+USERPASS_STRING+"=?,"+USERNICENAME_STRING +"=?,"+USERAVATARURL_STRING+"=?,"+USEREMAIL_STRING+"=?,"+USERURL_STRING+"=?,"+USERREGISTERED_STRING+"=?,"
 			+USERSTATUS_STRING+"=?,"+SITENAME_STRING+"=?,"+LOGINIP_STRING+"=?,"+LOGINTIMES_STRING + "=? ";
 	
+	/**
+	 * 获得总数量
+	 */
 	public static final String GETCOUNT_STRING = "select count(?)" + " from " + TABLENAME_STRING;
 }
 

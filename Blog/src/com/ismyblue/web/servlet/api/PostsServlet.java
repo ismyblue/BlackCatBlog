@@ -14,6 +14,7 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.locale.converters.DateLocaleConverter;
 
+import com.ismyblue.entity.Category;
 import com.ismyblue.entity.Post;
 import com.ismyblue.entity.User;
 import com.ismyblue.field.http.SessionAttr;
@@ -148,29 +149,40 @@ public class PostsServlet extends HttpServlet {
 	/**
 	 * 获得一篇文章
 	 * 获得文章信息,参数可选：
+		获得文章信息,参数可选：
 		1.无， 获得当前用户下的指定所有文章
 		2.id,    获得指定文章的信息
 		3.categoryId, 获得当前用户指定分类下的所有文章
-//		4.userId,categoryId, 获得指定用户指定分类下的所有文章
-//		5.page,count,   分页返回当前用户的文章
-//		6.userId,page,count,   分页返回指定用户的文章
+		4.userId,categoryId, 获得指定用户指定分类下的所有文章
+		5.categoryId,page,count,   分页返回指定分类的文章
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		User loginedUser = (User) request.getSession().getAttribute(SessionAttr.USER_STRING);
 		if(loginedUser == null){
 			response.getWriter().print("failed:用户未登录！");return ;
 		}
+		
+		if(request.getServletPath().equals("/api/posts/amount")){
+			doGetAmount(request, response);
+			return ;
+		}
+		
 		String idString = request.getParameter("id");
 		String categoryIdString = request.getParameter("categoryId");
 		String userIdString = request.getParameter("userId");
-//		String pageString = request.getParameter("page");
-//		String countString = request.getParameter("count");
+		String pageString = request.getParameter("page");
+		String countString = request.getParameter("count");
 		int userId = loginedUser.getId();		
 		if(userIdString != null){
 			userId = Integer.parseInt(userIdString);
 		}
 		
 		PostService postService = new PostService();
+		if(categoryIdString != null && pageString != null && countString != null){
+			Post[] posts = postService.getPosts(Integer.parseInt(categoryIdString), Integer.parseInt(pageString),
+						Integer.parseInt(countString));
+			response.getWriter().print(getPostsJsonObject(posts));
+		}
 		//查询指定用户所有的文章信息
 		if(idString == null && categoryIdString == null){
 			Post[] findPosts = postService.findPostsByUserId(userId);
@@ -197,11 +209,38 @@ public class PostsServlet extends HttpServlet {
 			}
 			Post[] findPosts = postService.findPostsByCategoryId(categoryId);
 			response.getWriter().print(getPostsJsonObject(findPosts));
+		//分页查找某一分类下的文章
 		}
-		
-		
 	}
 	
+	/**
+	 * 获取某一分类下的文章数量
+	 * @param request
+	 * @param response
+	 * @throws IOException 
+	 */
+	private void doGetAmount(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		User loginedUser = (User) request.getSession().getAttribute(SessionAttr.USER_STRING);		
+		String categoryIdString = request.getParameter("categoryId");
+		
+		if(categoryIdString == null){
+			response.getWriter().print("falied:没有指定categoryId");			
+		}
+		int categoryId = Integer.parseInt(categoryIdString);
+		System.out.println(categoryId);
+		CategoryService categoryService = new CategoryService();
+		Category findCategory = categoryService.findCategory(categoryId);
+		if(findCategory == null){			
+			response.getWriter().print("falied:此categoryId不存在");
+		}
+		if(!loginedUser.getUserPrivilege().equals(UserPrivilegeTbField.ADMIN_STRING) 
+				&& findCategory.getUserId() != loginedUser.getId()){
+			response.getWriter().print("falied:此分类不属于登陆用户");return ;
+		}
+		PostService postService = new PostService();
+		response.getWriter().print(postService.getAmount(categoryId));
+	}
+
 	private JSONObject postToJsonObject(Post post){
 		JSONObject jsonObject = JSONObject.fromObject(post);	
 		SimpleDateFormat f = new SimpleDateFormat("yyy-MM-dd HH:mm:ss:SS");
@@ -232,5 +271,7 @@ public class PostsServlet extends HttpServlet {
 		json.put("posts", posts);
 		return json;		
 	}
-
+	
+	
+	
 }

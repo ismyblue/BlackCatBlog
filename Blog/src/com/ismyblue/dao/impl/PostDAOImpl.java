@@ -96,8 +96,6 @@ public class PostDAOImpl implements PostDAO {
 		}
 	}
 
-
-
 	@Override
 	public Post[] findPosts(Map<String, Object> paramsMap) {
 		StringBuffer sqlsb = new StringBuffer(PostFN.SELECTPX_STRING + " where ");
@@ -158,7 +156,6 @@ public class PostDAOImpl implements PostDAO {
 		
 	}
 
-	
 	@Override
 	public Post[] findPostsByUserId(int userId) {
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
@@ -172,6 +169,26 @@ public class PostDAOImpl implements PostDAO {
 		paramsMap.put(PostFN.CATEGORYID_STRING, categoryId);
 		return findPosts(paramsMap);
 		
+	}
+
+
+	@Override
+	public Post[] getPostsByPage(int categoryId, int page, int count) {
+		String sql = PostFN.SELECTPX_STRING + " where " + PostFN.CATEGORYID_STRING + " = ? limit ?,?";
+		Object[] params = {categoryId, (page-1)*count, count};
+		Map<String, Object>[] r = SqlUtil.executeQueryReturnMapArray(sql,params);
+		return MapArrayToPosts(r);
+	}
+
+	@Override
+	public long getAmount(int categoryId) {
+		String sql = PostFN.GETCOUNT_STRING + " where " + PostFN.CATEGORYID_STRING + " = ?";
+		Object[] params = {PostFN.ID_STRING, categoryId};
+		Map<String, Object>[] r = SqlUtil.executeQueryReturnMapArray(sql, params);
+		for(Map.Entry<String, Object> e : r[0].entrySet()){
+			return (long) e.getValue();			
+		}
+		return 0;		
 	}
 
 }

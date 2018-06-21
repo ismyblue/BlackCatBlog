@@ -82,6 +82,22 @@ public interface LinkDAO {
 	 * @return
 	 */
 	public Link[] findLinksByUserId(int userId);
+
+	/**
+	 * 通过指定页码，每页链接数量来获取一定数量的链接
+	 * @param userId 用户id
+	 * @param page 页码数
+	 * @param count 每一页的链接数量
+	 * @return Link[]
+	 */
+	public Link[] getLinksByPage(int userId, int page, int count);
+
+	/**
+	 * 通过用户id获得用户的链接总数量，没有则返回0
+	 * @param userId
+	 * @return 
+	 */
+	public long getAmount(int userId);
 		
 }
 
