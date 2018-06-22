@@ -15,13 +15,10 @@ public class CaptchaServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 		CaptchaUtil captchaUtil = new CaptchaUtil(200, 100, 4, 10);		
 		String captcha = captchaUtil.getCaptcha();
 		request.getSession().setAttribute(SessionAttr.CAPTCHA_STRING, captcha);
-		System.out.println(captcha);		
-		captchaUtil.writeTo(response.getOutputStream());
-		
+		captchaUtil.writeTo(response.getOutputStream());		
 	}
 
 }

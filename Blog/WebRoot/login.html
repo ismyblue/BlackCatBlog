@@ -142,7 +142,7 @@ h1 {
 <script>
 	function changeCaptcha() {
 		var picture = document.getElementById("img-captcha");
-		picture.src = "http://ismyblue.com/Blog/api/captcha? " + Math.random();
+		picture.src = "api/captcha?time=" + Math.random();
 	}
 </script>
 
@@ -173,7 +173,7 @@ h1 {
 								</div>
 								<div class="group_userPass">
 									密&nbsp;&nbsp;码： <input id="userPass" type="password"
-										name="usePass" placeholder="输入您的登陆密码" />
+										name="userPass" placeholder="输入您的登陆密码" />
 								</div>
 								<div class="group_captcha">
 									验证码： <input id="captcha" type="text" name="captcha"

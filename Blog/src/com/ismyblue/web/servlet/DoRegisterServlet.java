@@ -3,7 +3,6 @@ package com.ismyblue.web.servlet;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
-import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -39,20 +38,21 @@ public class DoRegisterServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		
 		if(!request.getParameter("emailCaptcha").equals(session.getAttribute(SessionAttr.EMAILCAPTCHA_STRING))){
-			request.setAttribute(RequestAttr.REGISTERMSG_STRING, "Email verification code error!");
-			request.getRequestDispatcher("/register.html").forward(request, response);
+			request.setAttribute(RequestAttr.INFOMSG_STRING, "Email verification code error!");
+			response.setHeader("refresh", "2;register.html");
+			request.getRequestDispatcher("info.jsp").forward(request, response);
+			return ;
 		}
-		
-		//获取表单数据
-		Map<String, String[]> parameterMap = request.getParameterMap();		
+		System.out.println(request.getParameter("emailCaptcha") + " " + session.getAttribute(SessionAttr.EMAILCAPTCHA_STRING));	
 		User user = new User();
 		//处理业务逻辑
 		try {
-			BeanUtils.populate(user, parameterMap);
+			BeanUtils.populate(user, request.getParameterMap());
 		} catch (IllegalAccessException | InvocationTargetException e) {			
 			e.printStackTrace();
 		}		
 		
+		user.setUserAvatarUrl("/avatar");
 		user.setUserPrivilege(UserPrivilegeTbField.USER_STRING);
 		user.setUserRegistered(new Date());
 		user.setLoginIp(request.getRemoteAddr());
@@ -61,12 +61,14 @@ public class DoRegisterServlet extends HttpServlet {
 		System.out.println(user);
 		//分发转向
 		UserService userService = new UserService();
-		if(userService.addUser(user)){			
-			response.setHeader("refresh", "3;url=login.html");
-			response.sendRedirect("/success.html");
+		if(userService.addUser(user)){
+			request.setAttribute(RequestAttr.INFOMSG_STRING,"注册成功！2秒后跳转");
+			response.setHeader("refresh", "2;url=login.html");
+			request.getRequestDispatcher("info.jsp").forward(request, response);				
 		}else {			
-			request.setAttribute(RequestAttr.REGISTERMSG_STRING,"用户注册失败");
-			request.getRequestDispatcher("/register.html").forward(request, response);
+			request.setAttribute(RequestAttr.INFOMSG_STRING,"用户注册失败！2秒后跳转");
+			response.setHeader("refresh", "2;url=register.html");
+			request.getRequestDispatcher("info.jsp").forward(request, response);			
 		}
 		
 	}

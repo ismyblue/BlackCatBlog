@@ -3,7 +3,6 @@ package com.ismyblue.web.filter;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.Date;
 import java.util.Map;
 
 import javax.servlet.Filter;
@@ -38,16 +37,14 @@ public class EncodingFilter implements Filter {
 //		User loguser = new UserService().findUser(18);		
 //		((HttpServletRequest) request).getSession().setAttribute(SessionAttr.USER_STRING, loguser);
 		
-		// 处理请求乱码
 		HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-		HttpServletRequest myRequest = new MyRequest(httpServletRequest);		
-		if(myRequest.getServletPath().equals("/api/captcha") || myRequest.getServletPath().contains(".htm")){
-			chain.doFilter(myRequest, response);			
-			System.out.println(new Date());
+		if(httpServletRequest.getServletPath().equals("/api/captcha") || httpServletRequest.getServletPath().contains(".htm")){
+			chain.doFilter(request, response);		
 			return ;
 		}			
 		
 		// 处理响应乱码
+		HttpServletRequest myRequest = new MyRequest(httpServletRequest);		
 		response.setContentType("text/html;charset=utf-8");
 		chain.doFilter(myRequest, response);
 	}
