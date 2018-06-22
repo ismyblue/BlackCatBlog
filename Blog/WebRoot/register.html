@@ -1,56 +1,132 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>注册</title>
-    <style type="text/css">
-        @font-face
-        {
-            font-family: webfont;
-            src: url("src/tx.ttf")format("truetype");
-        }
-        *{margin: 0 auto;padding:0px;color: white}
-        h1{font-family: webfont;color:white;font-weight:bold;font-size: 40px}
-        .layout{
-            width:100%;height:100%;
-            background: url("img/mao.jpg") no-repeat ;
-            background-size: 100% ;
-            background-attachment: fixed;
-        }
+<meta charset="UTF-8">
+<title>注册</title>
+<style type="text/css">
+@font-face {
+	font-family: webfont;
+	src: url("src/tx.ttf") format("truetype");
+}
 
-        .register_container{width: 100%;height: 500px;position: relative;padding: 100px 0px 50px 0px;}
-        .register_content{width:50%;height:500px;position: relative;}
-        .register_header_logo{width: 100%;height: 10%; text-align: center}
+* {
+	margin: 0 auto;
+	padding: 0px;
+	color: white
+}
 
-        .register_main{width: 100%;height: 90%;}
-        .index_tab{width:80%;height: 15%;position:relative; }   /*  1  */
-        .index_tab .index_nav{width: 70%;height: 60%;position:relative;padding-top:10px}
-        .register_main .index_nav a{color:white;text-decoration: none;display:block;float:left;text-align: center;margin:0 20px 0 100px}
-        .register_main .index_nav a:hover{color: black;border-bottom: solid 3px black}
+h1 {
+	font-family: webfont;
+	color: white;
+	font-weight: bold;
+	font-size: 40px
+}
 
-        .register_form {width:85%;height: 85%;}
-        .register_form .group{width: 70%;height: 100%;}
-        .register_form .group input{width:55% ;height:30px;margin-bottom: 10px}
-        .register_form .group #userName,#captcha{position: relative;left: 16px}
-        .group_captcha #captcha-btn{width: 20%;color: black;margin:0px 0px 30px 20px}
-        .register_form .group #register-btn{width:70%;color: black;margin-left:20%}
+.layout {
+	width: 100%;
+	height: 100%;
+	background: url("img/mao.jpg") no-repeat;
+	background-size: 100%;
+	background-attachment: fixed;
+}
 
+.register_container {
+	width: 100%;
+	height: 500px;
+	position: relative;
+	padding: 100px 0px 50px 0px;
+}
 
-    </style>
+.register_content {
+	width: 50%;
+	height: 500px;
+	position: relative;
+}
 
-    <!--api接口 'adfadf/getEmailCaptcha"  参数：email=xxxxx 填入用户的邮箱账号，例如：   'afafdsfa/getEmialcaptcha?email=1263389261@qq.com'-->
-            <!--返回数据： "success"   或者 "faild:+失败信息"-->
-    <!--<script>-->
-        <!--function sendEmailCaptcha() {-->
-            <!--1.获取用户的邮箱账号-->
+.register_header_logo {
+	width: 100%;
+	height: 10%;
+	text-align: center
+}
 
-            <!--2使用ajax方法请求后台api接口发送验证码到指定邮箱-->
+.register_main {
+	width: 100%;
+	height: 90%;
+}
 
-            <!--3.接受后台api返回的结果，如果后台返回"success"那么代表后台已经发送验证码到用户邮箱，限制30秒之内不能再次点击发送验证码按钮-->
-            <!--3..接受后台api返回的结果，如果后台返回"success"那么代表后台无法发送验证码到用户邮箱，限制用户再不能点击按钮，并提示用户更换邮箱-->
-            <!--if()else-->
-        <!--}-->
-    <!--</script>-->
+.index_tab {
+	width: 80%;
+	height: 15%;
+	position: relative;
+} /*  1  */
+.index_tab .index_nav {
+	width: 70%;
+	height: 60%;
+	position: relative;
+	padding-top: 10px
+}
+
+.register_main .index_nav a {
+	color: white;
+	text-decoration: none;
+	display: block;
+	float: left;
+	text-align: center;
+	margin: 0 20px 0 100px
+}
+
+.register_main .index_nav a:hover {
+	color: black;
+	border-bottom: solid 3px black
+}
+
+.register_form {
+	width: 85%;
+	height: 85%;
+}
+
+.register_form .group {
+	width: 70%;
+	height: 100%;
+}
+
+.register_form .group input {
+	width: 55%;
+	height: 30px;
+	margin-bottom: 10px
+}
+
+.register_form .group #userName, #captcha {
+	position: relative;
+	left: 16px
+}
+
+.group_captcha #captcha-btn {
+	width: 20%;
+	color: black;
+	margin: 0px 0px 30px 20px
+}
+
+.register_form .group #register-btn {
+	width: 70%;
+	color: black;
+	margin-left: 20%
+}
+</style>
+
+<!--api接口 'adfadf/getEmailCaptcha"  参数：email=xxxxx 填入用户的邮箱账号，例如：   'afafdsfa/getEmialcaptcha?email=1263389261@qq.com'-->
+<!--返回数据： "success"   或者 "faild:+失败信息"-->
+<!--<script>-->
+<!--function sendEmailCaptcha() {-->
+<!--1.获取用户的邮箱账号-->
+
+<!--2使用ajax方法请求后台api接口发送验证码到指定邮箱-->
+
+<!--3.接受后台api返回的结果，如果后台返回"success"那么代表后台已经发送验证码到用户邮箱，限制30秒之内不能再次点击发送验证码按钮-->
+<!--3..接受后台api返回的结果，如果后台返回"success"那么代表后台无法发送验证码到用户邮箱，限制用户再不能点击按钮，并提示用户更换邮箱-->
+<!--if()else-->
+<!--}-->
+<!--</script>-->
 </head>
 <!-- script type="test/javascript">
         function sendEmailCaptcha()
@@ -65,67 +141,66 @@
 
  </script>-->
 <body class="layout">
-<div >
-    <!-------中间内容主体部分------->
-    <div class="register_container">
-        <div class="register_content">
-            <div class="register_header_logo"><h1>Welcome to Black Cat Blog</h1></div>
-            <div class="register_main">
-                <!----------注册和登陆-------->
-                <div class="index_tab">
-                    <div class="index_nav">
-                        <a href="login.html">登陆</a>
-                        <a href="register.html">注册</a>
-                    </div>
-                </div >
-                <!-------输入用户名或者 邮箱、   密码、验证码------>
-                <form action="api/users" method="post">
-                <div class="register_form">
-                    <div class="group">
+	<div>
+		<!-------中间内容主体部分------->
+		<div class="register_container">
+			<div class="register_content">
+				<div class="register_header_logo">
+					<h1>Welcome to Black Cat Blog</h1>
+				</div>
+				<div class="register_main">
+					<!----------注册和登陆-------->
+					<div class="index_tab">
+						<div class="index_nav">
+							<a href="login.html">登陆</a> <a href="register.html">注册</a>
+						</div>
+					</div>
+					<!-------输入用户名或者 邮箱、   密码、验证码------>
+					<form action="api/users" method="post">
+						<div class="register_form">
+							<div class="group">
 
-                            <div class="group_userName">
-                                   用户名：
-                                    <input id="userName" type="text" name="userLogin" placeholder="选择一个用户名"/>
-                            </div>
-                             <div class="group_userName">
-                                   昵称：
-                                    <input id="userName" type="text" name="userNicename" placeholder="选择一个用户名"/>
-                            </div>
-                            <div class="group_setPass">
-                                    登陆密码：
-                                    <input id="setPass" type="password" name="userPass" placeholder="设置登陆密码"/>
-                            </div>
-                            <div class="group_rePass">
-                                    重复密码：
-                                    <input id="rePass" type="password" name="rePass" placeholder="重复密码"/>
-                            </div>
-                            <div class="group_userEmail">
-                                    邮箱地址：
-                                    <input id="userEmail" type="text" name="userEmail" placeholder="输入邮箱地址"/>
-                            </div>
-                            <div class="group_captcha">
-                                    验证码：
-                                    <input id="captcha" type="text" name="emailCaptcha"placeholder="输入邮箱验证码" />
-                                    <input  id="captcha-btn" type="button" value="发送验证码" onclick="sendEmailCaptcha()" />
-                            </div>
-                             <div class="group_userEmail">
-                                    博客网站名称：
-                                    <input  type="text" name="siteName" placeholder=""/>
-                            </div>
-                             <div class="group_userEmail">
-                                    邮箱地址：
-                                    <input  type="text" name="userUrl" placeholder="输入邮箱地址"/>
-                            </div>
-                        <!------注册（提交）按钮------>
-                            <div class="register_button">
-                                   <input type="submit" value="注册"/>
-                            </div>
-                    </div>
-               </div>
-            	</form>
-            </div>
-        </div>
-    </div>
-</div>
+								<div class="group_userName">
+									用户名： <input id="userName" type="text" name="userLogin"
+										placeholder="选择一个用户名" />
+								</div>
+								<div class="group_userName">
+									昵称： <input id="userName" type="text" name="userNicename"
+										placeholder="选择一个用户名" />
+								</div>
+								<div class="group_setPass">
+									登陆密码： <input id="setPass" type="password" name="userPass"
+										placeholder="设置登陆密码" />
+								</div>
+								<div class="group_rePass">
+									重复密码： <input id="rePass" type="password" name="rePass"
+										placeholder="重复密码" />
+								</div>
+								<div class="group_userEmail">
+									邮箱地址： <input id="userEmail" type="text" name="userEmail"
+										placeholder="输入邮箱地址" />
+								</div>
+								<div class="group_captcha">
+									验证码： <input id="captcha" type="text" name="emailCaptcha"
+										placeholder="输入邮箱验证码" /> <input id="captcha-btn"
+										type="button" value="发送验证码" onclick="sendEmailCaptcha()" />
+								</div>
+								<div class="group_userEmail">
+									博客网站名称： <input type="text" name="siteName" placeholder="" />
+								</div>
+								<div class="group_userEmail">
+									邮箱地址： <input type="text" name="userUrl" placeholder="输入邮箱地址" />
+								</div>
+								<!------注册（提交）按钮------>
+								<div class="register_button">
+									<input type="submit" value="注册" />
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

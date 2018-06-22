@@ -42,13 +42,16 @@ public class DoLoginServlet extends HttpServlet {
 		}
 		User dbUser;
 		UserService userService = new UserService();
-		if((dbUser = userService.login(user)) == null){			
+		String captcha = request.getParameter("captcha");
+		System.out.println(captcha);
+		System.out.println(request.getSession().getAttribute(SessionAttr.CAPTCHA_STRING));
+		if((dbUser = userService.login(user)) == null 
+				|| !captcha.equalsIgnoreCase((String) request.getSession().getAttribute(SessionAttr.CAPTCHA_STRING))){			
 			request.setAttribute(RequestAttr.LOGINMSG_STRING, "用户登录失败");
-			request.getRequestDispatcher("/login.html").forward(request, response);
+			response.sendRedirect("login.html");
 		}else {	
 			request.getSession().setAttribute(SessionAttr.USER_STRING, dbUser);
-			response.sendRedirect("home.html");		
-			
+			response.sendRedirect("home.html");				
 		}
 	
 	}

@@ -1,106 +1,207 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>登陆</title>
-    <style type="text/css">
-        *{margin: 0px auto;padding: 0px;color:white;}
-        /*引用服务器端字体*/
-        @font-face {
-            font-family: webfont;
-            src: url("src/tx.ttf")format("truetype");
-        }
-        h1{font-family: webfont;color: white;font-weight: bold;font-size: 40px}
-        .layout{
-            width:100%;height:100%;
-            background: url("img/mao.jpg") no-repeat ;
-            background-size: 100% ;
-            background-attachment: fixed;
-            }
+<meta charset="UTF-8">
+<title>登陆</title>
+<style type="text/css">
+* {
+	margin: 0px auto;
+	padding: 0px;
+	color: white;
+}
+/*引用服务器端字体*/
+@font-face {
+	font-family: webfont;
+	src: url("src/tx.ttf") format("truetype");
+}
 
-         /* @media{  } 响应式*/
-        .login_container{width: 100%;height: 500px;position: relative;padding: 100px 0px 50px 0px;}
-        .login_content{width:50%;height:500px;position: relative;}
-        .login_header_logo{width: 100%;height: 10%; text-align: center}
+h1 {
+	font-family: webfont;
+	color: white;
+	font-weight: bold;
+	font-size: 40px
+}
 
-        .login_main{width: 100%;height: 90%;}
-        .index_tab{width:80%;height: 15%;position:relative;}   /*  1  */
-        .index_tab .index_nav{width: 70%;height: 60%;position:relative;padding-top:10px}
-        .login_main .index_nav a{color:white;text-decoration: none;display:block;float:left;text-align: center;margin:0 20px 0 100px}
-        .login_main .index_nav a:hover{color: black;border-bottom: solid 3px black}
+.layout {
+	width: 100%;
+	height: 100%;
+	background: url("img/mao.jpg") no-repeat;
+	background-size: 100%;
+	background-attachment: fixed;
+}
 
-        .login_form{width: 80%;height:60%;margin:0 auto;}  /*  2  */
-        .login_form input{height: 30px}
-        .login_form #userLogin {width: 250px}
-        .login_form #userPass{width: 250px}
-        .group_userPass input{margin-left: 2px}
-        .group_userLogin,.group_userPass ,.group_captcha{width:70%;height:80px;}
-        .group_captcha img{max-width: 17%;display:inline-block;  position: relative; top: 12px;}   /*是图片等比例缩放 不变性*/
+/* @media{  } 响应式*/
+.login_container {
+	width: 100%;
+	height: 500px;
+	position: relative;
+	padding: 100px 0px 50px 0px;
+}
 
-        .login_button{width: 80%;height: 10%;}/*  3  */
-        #btn{width:240px;height: 30px;display: block;color: black}
-        .login_chose{width: 80%;height: 10%;color: white} /*  4  */
-        .login_chose input{margin-left: 80px}
-        #unRemember{padding-left: 70px;color: azure}
-    </style>
-    <script>
-        function changeCaptcha(){
-            var picture = document.getElementById("img-captcha");
-                picture.src = "http://ismyblue.com/Blog/api/captcha? "+ Math.random();
-        }
-    </script>
+.login_content {
+	width: 50%;
+	height: 500px;
+	position: relative;
+}
+
+.login_header_logo {
+	width: 100%;
+	height: 10%;
+	text-align: center
+}
+
+.login_main {
+	width: 100%;
+	height: 90%;
+}
+
+.index_tab {
+	width: 80%;
+	height: 15%;
+	position: relative;
+} /*  1  */
+.index_tab .index_nav {
+	width: 70%;
+	height: 60%;
+	position: relative;
+	padding-top: 10px
+}
+
+.login_main .index_nav a {
+	color: white;
+	text-decoration: none;
+	display: block;
+	float: left;
+	text-align: center;
+	margin: 0 20px 0 100px
+}
+
+.login_main .index_nav a:hover {
+	color: black;
+	border-bottom: solid 3px black
+}
+
+.login_form {
+	width: 80%;
+	height: 60%;
+	margin: 0 auto;
+} /*  2  */
+.login_form input {
+	height: 30px;
+	color: black;	
+}
+
+.login_form #userLogin {
+	width: 250px
+}
+
+.login_form #userPass {
+	width: 250px
+}
+
+.group_userPass input {
+	margin-left: 2px
+}
+
+.group_userLogin, .group_userPass, .group_captcha {
+	width: 70%;
+	height: 80px;
+}
+
+.group_captcha img {
+	max-width: 17%;
+	display: inline-block;
+	position: relative;
+	top: 12px;
+} /*是图片等比例缩放 不变性*/
+.login_button {
+	width: 80%;
+	height: 10%;
+} /*  3  */
+#btn {
+	width: 240px;
+	height: 30px;
+	display: block;
+	color: black
+}
+
+.login_chose {
+	width: 80%;
+	height: 10%;
+	color: white
+} /*  4  */
+.login_chose input {
+	margin-left: 80px
+}
+
+#unRemember {
+	padding-left: 70px;
+	color: azure
+}
+</style>
+<script>
+	function changeCaptcha() {
+		var picture = document.getElementById("img-captcha");
+		picture.src = "http://ismyblue.com/Blog/api/captcha? " + Math.random();
+	}
+</script>
 
 </head>
 
 <body class="layout">
-<div >
-    <!-------中间内容主体部分------->
-      <div class="login_container">
-        <div class="login_content">
-            <div class="login_header_logo"><h1>Welcome to Black Cat Blog</h1></div>
-            <div class="login_main">
-                <!----------注册和登陆-------->
-                <div class="index_tab">
-                    <div class="index_nav">
-                        <a href="login.html">登陆</a>
-                        <a href="register.html">注册</a>
-                    </div>
-                </div >
-                <!-------输入用户名或者 邮箱、   密码、验证码------>
-                <form>
-                <div class="login_form">
-                    <div class="group">
-                        <div class="group_userLogin">
-                            用户名：
-                            <input id="userLogin" type="text" name="userLogin" placeholder="输入用户名"/>
-                        </div>
-                        <div class="group_userPass">
-                            密&nbsp;&nbsp;码：
-                            <input id="userPass" type="password" name="usePass" placeholder="输入您的登陆密码"/>
-                        </div>
-                        <div class="group_captcha">
-                            验证码：
-                            <input id="captcha" type="text" name="captcha"placeholder="输入验证码" />
-                               <img id="img-captcha" src="http://ismyblue.com/Blog/api/captcha" onclick="changeCaptcha()"/> <a href="javascript:changeCaptcha()" style="color: azure ;display: inline-block;position: relative;bottom: -8px">刷新</a>
-                        </div>
-                    </div>
-                </div>
-                <!------登陆（提交）按钮------>
-                <div class="login_button">
-                    <button id="btn">登陆</button>
-                </div>
-                <!-----密码的单选框和忘记密码----->
-                <div class="login_chose">
-                    <input id="Remember" name="Remember" type="checkbox" checked="checked"/>记住密码
-                    <input id="Show" name="Show" type="checkbox" checked="checked"/>显示密码
-                    <a href="#" id="unRemember">忘记密码</a>
-                </div>
-                </form>
-            </div>
-        </div>
-      </div>
+	<div>
+		<!-------中间内容主体部分------->
+		<div class="login_container">
+			<div class="login_content">
+				<div class="login_header_logo">
+					<h1>Welcome to Black Cat Blog</h1>
+				</div>
+				<div class="login_main">
+					<!----------注册和登陆-------->
+					<div class="index_tab">
+						<div class="index_nav">
+							<a href="login.html">登陆</a> <a href="register.html">注册</a>
+						</div>
+					</div>
+					<!-------输入用户名或者 邮箱、   密码、验证码------>
+					<form method="post" action="login.do">
+						<div class="login_form">
+							<div class="group">
+								<div class="group_userLogin">
+									用户名： <input id="userLogin" type="text" name="userLogin"
+										placeholder="输入用户名" />
+								</div>
+								<div class="group_userPass">
+									密&nbsp;&nbsp;码： <input id="userPass" type="password"
+										name="usePass" placeholder="输入您的登陆密码" />
+								</div>
+								<div class="group_captcha">
+									验证码： <input id="captcha" type="text" name="captcha"
+										placeholder="输入验证码" /> <img id="img-captcha"
+										src="api/captcha"
+										onclick="changeCaptcha()" /> <a
+										href="javascript:changeCaptcha()"
+										style="color: azure ;display: inline-block;position: relative;bottom: -8px">刷新</a>
+								</div>
+							</div>
+						</div>
+						<!------登陆（提交）按钮------>
+						<div class="login_button">
+							<input id="btn" type="submit" value="登陆">
+						</div>
+						<!-----密码的单选框和忘记密码----->
+						<div class="login_chose">
+							<input id="Remember" name="Remember" type="checkbox"
+								checked="checked" />记住密码 <input id="Show" name="Show"
+								type="checkbox" checked="checked" />显示密码 <a href="#"
+								id="unRemember">忘记密码</a>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
 
-    <div class="footer"></div>
-</div>
+		<div class="footer"></div>
+	</div>
 </body>
 </html>

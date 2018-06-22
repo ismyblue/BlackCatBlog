@@ -19,6 +19,7 @@ public class CaptchaServlet extends HttpServlet {
 		CaptchaUtil captchaUtil = new CaptchaUtil(200, 100, 4, 10);		
 		String captcha = captchaUtil.getCaptcha();
 		request.getSession().setAttribute(SessionAttr.CAPTCHA_STRING, captcha);
+		System.out.println(captcha);		
 		captchaUtil.writeTo(response.getOutputStream());
 		
 	}

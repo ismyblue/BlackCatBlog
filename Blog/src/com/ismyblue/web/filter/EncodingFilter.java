@@ -3,6 +3,7 @@ package com.ismyblue.web.filter;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.Date;
 import java.util.Map;
 
 import javax.servlet.Filter;
@@ -13,10 +14,6 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
-
-import com.ismyblue.entity.User;
-import com.ismyblue.field.http.SessionAttr;
-import com.ismyblue.service.UserService;
 
 /**
  * 
@@ -33,19 +30,20 @@ public class EncodingFilter implements Filter {
 	@Override
 	public void destroy() {
 	}
-
+	
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {		
 		
-		User loguser = new UserService().findUser(18);		
-		((HttpServletRequest) request).getSession().setAttribute(SessionAttr.USER_STRING, loguser);
+//		User loguser = new UserService().findUser(18);		
+//		((HttpServletRequest) request).getSession().setAttribute(SessionAttr.USER_STRING, loguser);
 		
 		// 处理请求乱码
 		HttpServletRequest httpServletRequest = (HttpServletRequest) request;
 		HttpServletRequest myRequest = new MyRequest(httpServletRequest);		
 		if(myRequest.getServletPath().equals("/api/captcha") || myRequest.getServletPath().contains(".htm")){
-			chain.doFilter(myRequest, response);
+			chain.doFilter(myRequest, response);			
+			System.out.println(new Date());
 			return ;
 		}			
 		
