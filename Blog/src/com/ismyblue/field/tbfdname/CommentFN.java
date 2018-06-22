@@ -16,7 +16,7 @@ package com.ismyblue.field.tbfdname;
  */
 public class CommentFN {
 
-	public static final String TABLENAME_STRING = "t_commets";
+	public static final String TABLENAME_STRING = "t_comments";
 	
 	public static final String ID_STRING = "id";
 	public static final String PARENTID_STRING = "parent_id";
@@ -32,7 +32,7 @@ public class CommentFN {
 	/** 插入语句
 	 */
 	public static final String INSERT_STRING = "insert into " +TABLENAME_STRING+"("+PARENTID_STRING+","+POSTID_STRING+","
-				+","+COMMENTCONTENT_STRING+","+COMMENTAUTHOREMAIL_STRING+","+COMMENTAUTHORURL_STRING+","+COMMENTAUTHORIP_STRING+","
+				+COMMENTCONTENT_STRING+","+COMMENTAUTHOREMAIL_STRING+","+COMMENTAUTHORURL_STRING+","+COMMENTAUTHORIP_STRING+","
 				+COMMENTDATE_STRING+","+COMMENTVISIBLE_STRING+","+COMMENTDELETE_STRING+") values(?,?,?,?,?,?,?,?,?);";
 	
 	 /** 删除语句前缀
@@ -43,7 +43,7 @@ public class CommentFN {
 	 * 选择语句前缀
 	 */
 	public static final String SELECTPX_STRING = "select " + ID_STRING +","+PARENTID_STRING+","+POSTID_STRING+","
-			+","+COMMENTCONTENT_STRING +","+COMMENTAUTHOREMAIL_STRING+","+COMMENTAUTHORURL_STRING+","+COMMENTAUTHORIP_STRING+","
+			+COMMENTCONTENT_STRING +","+COMMENTAUTHOREMAIL_STRING+","+COMMENTAUTHORURL_STRING+","+COMMENTAUTHORIP_STRING+","
 			+COMMENTDATE_STRING+","+COMMENTVISIBLE_STRING+","+COMMENTDELETE_STRING+" from "+TABLENAME_STRING + " "; 
 	
 	/**
@@ -53,5 +53,9 @@ public class CommentFN {
 			+COMMENTCONTENT_STRING +"=?,"+COMMENTAUTHOREMAIL_STRING+"=?,"+COMMENTAUTHORURL_STRING+"=?,"+COMMENTAUTHORIP_STRING+"=?,"
 			+COMMENTDATE_STRING+"=?,"+COMMENTVISIBLE_STRING+"=?,"+COMMENTDELETE_STRING+"=? ";
 	
+	/**
+	 * 获得评论个数
+	 */
+	public static final String GETCOUNT_STRING = "select count(?)" + " from " + TABLENAME_STRING;
 	
 }

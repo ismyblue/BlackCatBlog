@@ -20,6 +20,7 @@ import com.ismyblue.field.http.SessionAttr;
 import com.ismyblue.field.tbfdvalue.UserPrivilegeTbField;
 import com.ismyblue.field.tbfdvalue.UserStatusTbField;
 import com.ismyblue.service.UserService;
+import com.ismyblue.util.DateConvert;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -35,7 +36,7 @@ public class UsersServlet extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		User user = new User();
 		try {
-			ConvertUtils.register(new DateLocaleConverter(), Date.class);
+			ConvertUtils.register(new DateConvert() , Date.class);
 			BeanUtils.populate(user, request.getParameterMap());
 		} catch (IllegalAccessException | InvocationTargetException e) {
 			e.printStackTrace();
@@ -148,7 +149,7 @@ public class UsersServlet extends HttpServlet {
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//处理获取用户个数请求				
-		if(request.getRequestURI().endsWith("/api/users/amount")){
+		if(request.getServletPath().equals("/api/users/amount")){
 			doGetAmount(request, response);			
 			return ;
 		}

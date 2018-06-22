@@ -1,6 +1,7 @@
 package com.ismyblue.dao.impl;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 import com.ismyblue.dao.CommentDAO;
@@ -110,20 +111,17 @@ public class CommentDAOImpl implements CommentDAO {
 		if(size > 0)
 			params = new Object[size];
 		
-		int i = 0;		
-		for(Map.Entry<String, Object> e : paramsMap.entrySet()){
-			params[i] = e.getValue();
-			if(i != 0){
+		int num = 0;		
+		for(Map.Entry<String, Object> e : paramsMap.entrySet()){			
+			if(num != 0){
 				sqlsb.append(" and ");				
-			}
-			i++;
+			}			
 			sqlsb.append(e.getKey());
-			sqlsb.append("=?");			
+			sqlsb.append("=?");
+			params[num++] = e.getValue();
 		}
 		Map<String, Object>[] mapArry = SqlUtil.executeQueryReturnMapArray(sqlsb.toString(), params);
-		return  MapArrayToComments(mapArry);
-		
-		
+		return  MapArrayToComments(mapArry);		
 	}
 
 	private Comment[] MapArrayToComments(Map<String, Object>[]  entitys){		
@@ -159,6 +157,50 @@ public class CommentDAOImpl implements CommentDAO {
 		}
 		return comments;		
 		
+	}
+
+
+	
+
+	@Override
+	public Comment[] findCommentsByPage(int postId, int page, int count) {
+		String sql = CommentFN.SELECTPX_STRING + " where " + CommentFN.POSTID_STRING + " = ? limit ?,?";
+		Object[] params = {postId, (page-1)*count, count};
+		Map<String, Object>[] r = SqlUtil.executeQueryReturnMapArray(sql,params);
+		return MapArrayToComments(r);
+	}
+
+
+	
+	@Override
+	public Comment[] findCommentsByParentId(int parentId) {
+		Map<String, Object> paramsMap = new HashMap<String, Object>();
+		paramsMap.put(CommentFN.PARENTID_STRING, parentId);		
+		return findComments(paramsMap);
+	}
+
+
+	@Override
+	public long getAmountByPostId(int postId) {
+		String sql = CommentFN.GETCOUNT_STRING + " where " + CommentFN.POSTID_STRING + " = ?";
+		Object[] params = {CommentFN.ID_STRING, postId};
+		Map<String, Object>[] r = SqlUtil.executeQueryReturnMapArray(sql, params);
+		for(Map.Entry<String, Object> e : r[0].entrySet()){
+			return (long) e.getValue();
+		}
+		return 0;
+	}
+
+
+	@Override
+	public long getAmountByCommentId(int commentId) {
+		String sql = CommentFN.GETCOUNT_STRING + " where " + CommentFN.PARENTID_STRING + " = ?";
+		Object[] params = {CommentFN.ID_STRING, commentId};
+		Map<String, Object>[] r = SqlUtil.executeQueryReturnMapArray(sql, params);
+		for(Map.Entry<String, Object> e : r[0].entrySet()){
+			return (long) e.getValue();
+		}
+		return 0;
 	}
 	
 

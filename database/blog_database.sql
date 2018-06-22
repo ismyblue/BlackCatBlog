@@ -11,7 +11,7 @@
  Target Server Version : 50721
  File Encoding         : 65001
 
- Date: 05/06/2018 12:07:01
+ Date: 22/06/2018 10:22:04
 */
 
 SET NAMES utf8mb4;
@@ -33,7 +33,7 @@ CREATE TABLE `t_categories`  (
   INDEX `ind_gategory_name`(`category_name`) USING BTREE,
   CONSTRAINT `FK_parent_id` FOREIGN KEY (`parent_id`) REFERENCES `t_categories` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FK_user_id` FOREIGN KEY (`user_id`) REFERENCES `t_users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 48 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 56 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_categories
@@ -52,6 +52,14 @@ INSERT INTO `t_categories` VALUES (35, 35, 18, '文学分类');
 INSERT INTO `t_categories` VALUES (36, 36, 18, '文学分类');
 INSERT INTO `t_categories` VALUES (37, 14, 18, '文学分类');
 INSERT INTO `t_categories` VALUES (47, 14, 18, '测试分类');
+INSERT INTO `t_categories` VALUES (48, 0, 0, '历史分类');
+INSERT INTO `t_categories` VALUES (49, 0, 0, '历史分类');
+INSERT INTO `t_categories` VALUES (50, 0, 18, '历史分类');
+INSERT INTO `t_categories` VALUES (51, 0, 18, '历史分类');
+INSERT INTO `t_categories` VALUES (52, 0, 18, '历史分类');
+INSERT INTO `t_categories` VALUES (53, 0, 18, '历史分类');
+INSERT INTO `t_categories` VALUES (54, 0, 18, '历史分类');
+INSERT INTO `t_categories` VALUES (55, 0, 18, '历史分类');
 
 -- ----------------------------
 -- Table structure for t_comments
@@ -74,7 +82,24 @@ CREATE TABLE `t_comments`  (
   INDEX `ind_parent_id`(`parent_id`) USING BTREE,
   CONSTRAINT `FFK_comments_id` FOREIGN KEY (`parent_id`) REFERENCES `t_comments` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FK_post_id` FOREIGN KEY (`post_id`) REFERENCES `t_posts` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 26 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of t_comments
+-- ----------------------------
+INSERT INTO `t_comments` VALUES (0, 0, 0, '0', '0', '0', '0', '0001-01-01 01:01:01', '1', '0');
+INSERT INTO `t_comments` VALUES (12, 0, 2, 'commentContentStr', 'commentAuthorEmail', 'commentAuthorUrlSttr', '0:0:0:0:0:0:0:1', '2018-06-21 20:59:41', 'visible', 'nodelete');
+INSERT INTO `t_comments` VALUES (13, 12, 2, 'commentContentStr', 'commentAuthorEmail', 'commentAuthorUrlSttr', '0:0:0:0:0:0:0:1', '2018-06-21 21:00:25', 'visible', 'nodelete');
+INSERT INTO `t_comments` VALUES (14, 12, 2, 'commentContentStr', 'commentAuthorEmail', 'commentAuthorUrlSttr', '0:0:0:0:0:0:0:1', '2018-06-21 21:00:27', 'visible', 'nodelete');
+INSERT INTO `t_comments` VALUES (15, 12, 2, 'commentContentStr', 'commentAuthorEmail', 'commentAuthorUrlSttr', '0:0:0:0:0:0:0:1', '2018-06-21 21:00:29', 'visible', 'nodelete');
+INSERT INTO `t_comments` VALUES (16, 0, 2, 'commentContentStr', 'commentAuthorEmail', 'commentAuthorUrlSttr', '0:0:0:0:0:0:0:1', '2018-06-21 21:00:32', 'visible', 'nodelete');
+INSERT INTO `t_comments` VALUES (18, 0, 2, 'commentContentStr', 'commentAuthorEmail', 'commentAuthorUrlSttr', '0:0:0:0:0:0:0:1', '2018-06-21 21:00:33', 'visible', 'nodelete');
+INSERT INTO `t_comments` VALUES (19, 12, 2, 'commentContentStr', 'commentAuthorEmail', 'commentAuthorUrlSttr', '0:0:0:0:0:0:0:1', '2018-06-21 21:00:34', 'visible', 'nodelete');
+INSERT INTO `t_comments` VALUES (20, 0, 4, 'commentContentStr', 'commentAuthorEmail', 'commentAuthorUrlSttr', '0:0:0:0:0:0:0:1', '2018-06-21 21:00:42', 'visible', 'nodelete');
+INSERT INTO `t_comments` VALUES (21, 0, 4, 'commentContentStr', 'commentAuthorEmail', 'commentAuthorUrlSttr', '0:0:0:0:0:0:0:1', '2018-06-21 21:00:45', 'visible', 'nodelete');
+INSERT INTO `t_comments` VALUES (23, 0, 10, 'commentContentStr', 'commentAuthorEmail', 'commentAuthorUrlSttr', '0:0:0:0:0:0:0:1', '2018-06-21 21:01:03', 'visible', 'nodelete');
+INSERT INTO `t_comments` VALUES (24, 23, 10, 'commentContentStr', 'commentAuthorEmail', 'commentAuthorUrlSttr', '0:0:0:0:0:0:0:1', '2018-06-21 21:01:50', 'visible', 'nodelete');
+INSERT INTO `t_comments` VALUES (25, 0, 10, 'commentContentStr', 'commentAuthorEmail', 'commentAuthorUrlSttr', '0:0:0:0:0:0:0:1', '2018-06-21 21:03:15', 'visible', 'nodelete');
 
 -- ----------------------------
 -- Table structure for t_links
@@ -93,7 +118,17 @@ CREATE TABLE `t_links`  (
   INDEX `ind_user_id`(`user_id`) USING BTREE,
   INDEX `ind_link_visible`(`link_delete`) USING BTREE,
   CONSTRAINT `FFKK_user_id` FOREIGN KEY (`user_id`) REFERENCES `t_users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of t_links
+-- ----------------------------
+INSERT INTO `t_links` VALUES (5, 18, '头像', '/asf/assdf.jpg', 'descstring', 'nodelete');
+INSERT INTO `t_links` VALUES (6, 18, '头像', '/asf/sdf.jpg', 'descstring', 'nodelete');
+INSERT INTO `t_links` VALUES (9, 18, '哈麻批', '/aasaf/sdf.jpg', 'descstring', 'nodelete');
+INSERT INTO `t_links` VALUES (10, 18, 'hahaha麻批', '/ismg/123.jpg', 'descstring', 'nodelete');
+INSERT INTO `t_links` VALUES (12, 18, '哈麻批', '/img/sdaf.jpg', 'descstring', 'nodelete');
+INSERT INTO `t_links` VALUES (15, 18, '哈麻批', '/img/123.jpg', 'descstring', 'nodelete');
 
 -- ----------------------------
 -- Table structure for t_posts
@@ -119,7 +154,23 @@ CREATE TABLE `t_posts`  (
   INDEX `ind_post_date`(`post_date`) USING BTREE,
   CONSTRAINT `FKK_user_id` FOREIGN KEY (`user_id`) REFERENCES `t_users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FK_gategory_id` FOREIGN KEY (`category_id`) REFERENCES `t_categories` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '文章表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '文章表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of t_posts
+-- ----------------------------
+INSERT INTO `t_posts` VALUES (0, 0, 0, '0', '0', '0001-01-01 01:01:01', '0', 'publish', 'close', '0001-01-01 01:01:01', 0, 0);
+INSERT INTO `t_posts` VALUES (2, 18, 36, 'postTitleStr', 'postContentStr', '2018-08-08 00:00:00', 'postExcerptStr', 'postStatusStr', 'commentStatusStr', '2018-06-20 20:53:26', 0, 0);
+INSERT INTO `t_posts` VALUES (3, 18, 36, '无敌大魔王', 'postContentStr', '2018-08-08 00:00:00', 'postExcerptStr', 'postStatusStr', 'commentStatusStr', '2018-08-08 00:00:00', 0, 0);
+INSERT INTO `t_posts` VALUES (4, 18, 14, 'postTitleStr', 'postContentStr', '2018-08-08 00:00:00', 'postExcerptStr', 'postStatusStr', 'commentStatusStr', '2018-06-20 20:54:36', 0, 0);
+INSERT INTO `t_posts` VALUES (5, 18, 35, 'postTitleStr', 'postContentStr', '2018-08-08 00:00:00', 'postExcerptStr', 'postStatusStr', 'commentStatusStr', '2018-06-20 20:54:37', 0, 0);
+INSERT INTO `t_posts` VALUES (6, 18, 36, 'postTitleStr', 'postContentStr', '2018-08-08 00:00:00', 'postExcerptStr', 'postStatusStr', 'commentStatusStr', '2018-06-20 20:54:37', 0, 0);
+INSERT INTO `t_posts` VALUES (7, 18, 36, 'postTitleStr', 'postContentStr', '2018-08-08 00:00:00', 'postExcerptStr', 'postStatusStr', 'commentStatusStr', '2018-06-20 20:54:37', 0, 0);
+INSERT INTO `t_posts` VALUES (8, 18, 35, 'postTitleStr', 'postContentStr', '2018-08-08 00:00:00', 'postExcerptStr', 'postStatusStr', 'commentStatusStr', '2018-06-20 20:54:38', 0, 0);
+INSERT INTO `t_posts` VALUES (9, 18, 36, 'postTitleStr', 'postContentStr', '2018-08-08 00:00:00', 'postExcerptStr', 'postStatusStr', 'commentStatusStr', '2018-06-20 20:54:38', 0, 0);
+INSERT INTO `t_posts` VALUES (10, 18, 14, 'postTitleStr', 'postContentStr', '2018-08-08 00:00:00', 'postExcerptStr', 'postStatusStr', 'commentStatusStr', '2018-06-20 21:04:48', 0, 0);
+INSERT INTO `t_posts` VALUES (11, 18, 36, '无敌大魔王', 'postContentStr', '2018-08-08 00:00:00', 'postExcerptStr', 'postStatusStr', 'commentStatusStr', '2018-06-20 21:05:08', 0, 0);
+INSERT INTO `t_posts` VALUES (12, 18, 14, '无敌大魔王', 'postContentStr', '2018-08-08 00:00:00', 'postExcerptStr', 'postStatusStr', 'commentStatusStr', '2018-06-20 21:05:34', 0, 0);
 
 -- ----------------------------
 -- Table structure for t_users
@@ -144,7 +195,7 @@ CREATE TABLE `t_users`  (
   INDEX `IND_PRIMARY`(`id`) USING BTREE,
   INDEX `ind_user_nicename`(`user_nicename`) USING BTREE,
   INDEX `ind_user_login`(`user_login`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 37 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 33 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_users

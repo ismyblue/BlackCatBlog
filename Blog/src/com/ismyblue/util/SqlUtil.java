@@ -134,8 +134,7 @@ public class SqlUtil {
 		}
 		int col = params.length;
 		try{			
-			for(int i = 0 ;i < col;i++) {			
-				
+			for(int i = 0 ;i < col;i++) {		
 				Class<? extends Object> clazz;
 				try {
 					clazz = params[i].getClass();
@@ -361,7 +360,7 @@ public class SqlUtil {
 			preparedStatement = connection.prepareStatement(sql);
 			//System.out.println(preparedStatement);
 			setPreparedStatementAllParams(preparedStatement, params);
-			System.out.println(preparedStatement);
+//			System.out.println(preparedStatement);
 			resultSet = preparedStatement.executeQuery();
 			ResultSetMetaData metaData = resultSet.getMetaData();			
 			int colCount = metaData.getColumnCount();			

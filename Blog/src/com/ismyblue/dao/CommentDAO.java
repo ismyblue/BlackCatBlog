@@ -75,6 +75,36 @@ public interface CommentDAO {
 	 * @return
 	 */
 	public Comment[] findComments(Map<String, Object> paramsMap);
+
+	/**
+	 *  通过文章id，页码数，每页评论数量，来获得一些评论
+	 * @param postId
+	 * @param page
+	 * @param count
+	 * @return
+	 */
+	public Comment[] findCommentsByPage(int postId, int page, int count);
+
+	/**
+	 * 通过父亲id，获得这个评论下的所有评论
+	 * @param parentId
+	 * @return
+	 */
+	public Comment[] findCommentsByParentId(int parentId);
+
+	/**
+	 * 通过文章id，获得此篇文章下的评论的个数,没有则返回0
+	 * @param postId
+	 * @return
+	 */
+	public long getAmountByPostId(int postId);
+	
+	/**
+	 * 通过评论id，获得这个评论下的评论的个数,没有则返回0
+	 * @param commentId
+	 * @return
+	 */
+	public long getAmountByCommentId(int commentId);
 	
 	
 	
