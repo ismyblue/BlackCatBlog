@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.ConvertUtils;
 
 import com.ismyblue.entity.Comment;
 import com.ismyblue.entity.Post;
@@ -21,6 +22,7 @@ import com.ismyblue.field.tbfdvalue.CommentVisibleTbField;
 import com.ismyblue.field.tbfdvalue.UserPrivilegeTbField;
 import com.ismyblue.service.CommentService;
 import com.ismyblue.service.PostService;
+import com.ismyblue.util.MyConvert;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -59,10 +61,11 @@ public class CommentsServlet extends HttpServlet {
 			"commentAuthorUrl": "http://nor.mcgeqiaa.shklf"
 		}
 	 */
-	public void doComment(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		Comment comment = new Comment();
 		try {
+			ConvertUtils.register(new MyConvert(), Date.class);
 			BeanUtils.populate(comment, request.getParameterMap());
 		} catch (IllegalAccessException | InvocationTargetException e) {
 			e.printStackTrace();
