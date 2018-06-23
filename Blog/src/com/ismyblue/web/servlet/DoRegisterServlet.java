@@ -15,6 +15,7 @@ import org.apache.commons.beanutils.BeanUtils;
 import com.ismyblue.entity.User;
 import com.ismyblue.field.http.RequestAttr;
 import com.ismyblue.field.http.SessionAttr;
+import com.ismyblue.field.path.ConfigPathField;
 import com.ismyblue.field.tbfdvalue.UserPrivilegeTbField;
 import com.ismyblue.field.tbfdvalue.UserStatusTbField;
 import com.ismyblue.service.UserService;
@@ -51,7 +52,9 @@ public class DoRegisterServlet extends HttpServlet {
 		} catch (IllegalAccessException | InvocationTargetException e) {			
 			e.printStackTrace();
 		}		
-		
+		user.setUserNicename(user.getUserLogin());
+		user.setUserUrl(ConfigPathField.DOMAINNAME_STRING+"/user/"+user.getUserLogin());
+		user.setSiteName(user.getUserLogin() + "'s website");
 		user.setUserAvatarUrl("/avatar");
 		user.setUserPrivilege(UserPrivilegeTbField.USER_STRING);
 		user.setUserRegistered(new Date());

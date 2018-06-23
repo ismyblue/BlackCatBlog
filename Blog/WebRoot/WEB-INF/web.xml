@@ -5,7 +5,10 @@
 	id="WebApp_ID" version="3.1">
 	<display-name>Blog</display-name>
 
-
+	<context-param>
+		<param-name>DomainName</param-name>
+		<param-value>www.ismyblue.com</param-value>
+	</context-param>
 
 	<filter>
 		<filter-name>EncodingFilter</filter-name>
@@ -56,10 +59,10 @@
 		<servlet-name>LinksServlet</servlet-name>
 		<servlet-class>com.ismyblue.web.servlet.api.LinksServlet</servlet-class>
 	</servlet>
-  <servlet>
-    <servlet-name>CommentsServlet</servlet-name>
-    <servlet-class>com.ismyblue.web.servlet.api.CommentsServlet</servlet-class>
-  </servlet>
+	<servlet>
+		<servlet-name>CommentsServlet</servlet-name>
+		<servlet-class>com.ismyblue.web.servlet.api.CommentsServlet</servlet-class>
+	</servlet>
 
 
 
@@ -110,11 +113,11 @@
 		<url-pattern>/api/links</url-pattern>
 		<url-pattern>/api/links/amount</url-pattern>
 	</servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>CommentsServlet</servlet-name>
-    <url-pattern>/api/comments</url-pattern>
-    <url-pattern>/api/comments/amount</url-pattern>
-  </servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>CommentsServlet</servlet-name>
+		<url-pattern>/api/comments</url-pattern>
+		<url-pattern>/api/comments/amount</url-pattern>
+	</servlet-mapping>
 
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
@@ -125,12 +128,12 @@
 		<welcome-file>default.jsp</welcome-file>
 	</welcome-file-list>
 
-	<!-- <error-page>
+	<error-page>
 		<error-code>404</error-code>
 		<location>/error.jsp</location>
 	</error-page>
 	<error-page>
 		<error-code>500</error-code>
 		<location>/error.jsp</location>
-	</error-page> -->
+	</error-page>
 </web-app>

@@ -10,8 +10,9 @@ public class InitAppPathListener implements ServletContextListener {
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
 		ConfigPathField.APPPATH_STRING = sce.getServletContext().getRealPath("");
+		ConfigPathField.DOMAINNAME_STRING = sce.getServletContext().getInitParameter("DomainName");
 		System.out.println(ConfigPathField.APPPATH_STRING);	
-		
+		System.out.println(ConfigPathField.DOMAINNAME_STRING);
 	}
 
 	@Override

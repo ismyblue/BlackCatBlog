@@ -17,7 +17,9 @@ package com.ismyblue.field.path;
 public class ConfigPathField {
 	
 	
-	
+	/**
+	 * webApp的绝对路径
+	 */
 	public static String APPPATH_STRING = "D:/code/Blog/WebRoot";
 	
 	/**
@@ -30,7 +32,10 @@ public class ConfigPathField {
 	 */
 	public static final String EMAILCONFIG_STRING = "/WEB-INF/config/email.properties";
 
-
+	/**
+	 * 网站的域名
+	 */
+	public static String DOMAINNAME_STRING = "domain.com";
 	
 	
 }

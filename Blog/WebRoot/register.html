@@ -97,50 +97,34 @@ h1 {
 	color: black;
 }
 
-.register_form .group #userName, #captcha {
-	position: relative;
-	left: 16px
-}
-
 .group_captcha #captcha-btn {
-	width: 20%;
+	width: 100%;
 	color: black;
-	margin: 0px 0px 30px 20px
 }
 
 .register_form .group #register-btn {
-	width: 70%;
+	width: 100%;
 	color: black;
 	margin-left: 20%
 }
 </style>
+<script type="text/javascript" src="js/validator.min.js"></script>
 
-<!--api接口 'adfadf/getEmailCaptcha"  参数：email=xxxxx 填入用户的邮箱账号，例如：   'afafdsfa/getEmialcaptcha?email=1263389261@qq.com'-->
-<!--返回数据： "success"   或者 "faild:+失败信息"-->
-<!--<script>-->
-<!--function sendEmailCaptcha() {-->
-<!--1.获取用户的邮箱账号-->
+<!-- api接口 'adfadf/getEmailCaptcha"  参数：email=xxxxx 填入用户的邮箱账号，例如：   'afafdsfa/getEmialcaptcha?email=1263389261@qq.com'
+返回数据： "success"   或者 "faild:+失败信息" -->
+<script>
+	function sendEmailCaptcha() {
+		//1.获取用户的邮箱账号
 
-<!--2使用ajax方法请求后台api接口发送验证码到指定邮箱-->
+		//2使用ajax方法请求后台api接口发送验证码到指定邮箱
 
-<!--3.接受后台api返回的结果，如果后台返回"success"那么代表后台已经发送验证码到用户邮箱，限制30秒之内不能再次点击发送验证码按钮-->
-<!--3..接受后台api返回的结果，如果后台返回"success"那么代表后台无法发送验证码到用户邮箱，限制用户再不能点击按钮，并提示用户更换邮箱-->
-<!--if()else-->
-<!--}-->
-<!--</script>-->
+		//3.接受后台api返回的结果，如果后台返回"success"那么代表后台已经发送验证码到用户邮箱，限制30秒之内不能再次点击发送验证码按钮
+
+		//3..接受后台api返回的结果，如果后台返回"success"那么代表后台无法发送验证码到用户邮箱，限制用户再不能点击按钮，并提示用户更换邮箱
+	}
+</script>
 </head>
-<!-- script type="test/javascript">
-        function sendEmailCaptcha()
-        {
-        var add =
-        //建立连接
-        req.open("get","");
-        //发送请求：
-        req.send();
 
-        }
-
- </script>-->
 <body class="layout">
 	<div>
 		<!-------中间内容主体部分------->
@@ -157,41 +141,37 @@ h1 {
 						</div>
 					</div>
 					<!-------输入用户名或者 邮箱、   密码、验证码------>
-					<form action="register.do" method="post">
+					<form id="register_form" action="#" method="post">
 						<div class="register_form">
 							<div class="group">
-
-								<div class="group_userName">
-									用户名： <input id="userName" type="text" name="userLogin"
-										placeholder="选择一个用户名" />
+								<div>
+									用户名：&nbsp;&nbsp;&nbsp; <input id="userLogin" type="text"
+										name="userLogin" placeholder="选择一个用户名"
+										onchange="blurValidate(this)" />
+									<p id="userLogin"></p>
 								</div>
-								<div class="group_userName">
-									昵称： <input id="userName" type="text" name="userNicename"
-										placeholder="选择一个用户名" />
+								<div>
+									登陆密码： <input type="password" name="userPass"
+										placeholder="设置登陆密码" onchange="blurValidate(this)" />
+									<p id="userPass"></p>
 								</div>
-								<div class="group_setPass">
-									登陆密码： <input id="setPass" type="password" name="userPass"
-										placeholder="设置登陆密码" />
+								<div>
+									重复密码： <input type="password" name="rePass" placeholder="重复密码"
+										onchange="blurValidate(this)" />
+									<p id="rePass"></p>
 								</div>
-								<div class="group_rePass">
-									重复密码： <input id="rePass" type="password" name="rePass"
-										placeholder="重复密码" />
+								<div>
+									邮箱地址： <input type="text" name="userEmail" placeholder="输入邮箱地址"
+										onchange="blurValidate(this)" />
+									<p id="userEmail"></p>
 								</div>
-								<div class="group_userEmail">
-									邮箱地址： <input id="userEmail" type="text" name="userEmail"
-										placeholder="输入邮箱地址" />
+								<div>
+									验证码：&nbsp;&nbsp;&nbsp; <input type="text" name="emailCaptcha"
+										placeholder="输入邮箱验证码" onchange="blurValidate(this)" />
+									<p id="emailCaptcha"></p>
 								</div>
-								<div class="group_captcha">
-									验证码： <input id="captcha" type="text" name="emailCaptcha"
-										placeholder="输入邮箱验证码" /> <input id="captcha-btn"
-										type="button" value="发送验证码" onclick="sendEmailCaptcha()" />
-								</div>
-								<div class="group_userEmail">
-									博客网站名称： <input type="text" name="siteName" placeholder="" />
-								</div>
-								<div class="group_userEmail">
-									邮箱地址： <input type="text" name="userUrl" placeholder="输入邮箱地址" />
-								</div>
+								<input id="captcha-btn" type="button" value="发送验证码"
+									onclick="sendEmailCaptcha()" />
 								<!------注册（提交）按钮------>
 								<div class="register_button">
 									<input type="submit" value="注册" />
@@ -204,4 +184,51 @@ h1 {
 		</div>
 	</div>
 </body>
+<script type="text/javascript">
+
+	var validator = new Validator('register_form', [
+		{
+			name : "userLogin",
+			display : "用户名不能为空|至少输入6个字符，您输入的{{userLogin}}长度少于6",
+			rules : 'required|min_length(6)'
+		}, {
+			name : "userPass",
+			display : "用户密码不能为空|字数小于8个字符|大于15个字符",
+			rules : 'required|min_length(8)|max_length(15)'
+		}, {
+			name : "rePass",
+			display : "确认密码不能为空|两次输入不一致",
+			reles : 'required|same({{userPass}})'
+		}, {
+			name : "userEmail",
+			display : "请输入您的邮箱|这不是一个邮箱",
+			rules : 'required|is_email'
+		}, {
+			name : "emailCaptcha",
+			display : "邮箱验证码不能为空",
+			rules : 'required'
+		}
+	]);/* , function(obj, evt) {
+		alert("chufa");
+		if (obj.errors.length > 0) {
+			// 判断是否错误
+			var error_str = '';
+			for (var i = 0; i < obj.errors.length; i++) {
+				document.getElementById(obj.errors[i].name).innerHTML = val.errors[i].message;
+			}
+		}
+	}); */
+
+	/* function blurValidate() {
+		validator.validate();
+	} */
+	function blurValidate(e) {
+		var val = validator.validate();
+		for (var i = 0; i < val.errors.length; i++) {
+			if (e.name == val.errors[i].name) {
+				document.getElementById(e.name).innerHTML = val.errors[i].display
+			}
+		}
+	}
+</script>
 </html>
