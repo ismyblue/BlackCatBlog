@@ -1,234 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>注册</title>
-<style type="text/css">
-@font-face {
-	font-family: webfont;
-	src: url("src/tx.ttf") format("truetype");
-}
-
-* {
-	margin: 0 auto;
-	padding: 0px;
-	color: white
-}
-
-h1 {
-	font-family: webfont;
-	color: white;
-	font-weight: bold;
-	font-size: 40px
-}
-
-.layout {
-	width: 100%;
-	height: 100%;
-	background: url("img/mao.jpg") no-repeat;
-	background-size: 100%;
-	background-attachment: fixed;
-}
-
-.register_container {
-	width: 100%;
-	height: 500px;
-	position: relative;
-	padding: 100px 0px 50px 0px;
-}
-
-.register_content {
-	width: 50%;
-	height: 500px;
-	position: relative;
-}
-
-.register_header_logo {
-	width: 100%;
-	height: 10%;
-	text-align: center
-}
-
-.register_main {
-	width: 100%;
-	height: 90%;
-}
-
-.index_tab {
-	width: 80%;
-	height: 15%;
-	position: relative;
-} /*  1  */
-.index_tab .index_nav {
-	width: 70%;
-	height: 60%;
-	position: relative;
-	padding-top: 10px
-}
-
-.register_main .index_nav a {
-	color: white;
-	text-decoration: none;
-	display: block;
-	float: left;
-	text-align: center;
-	margin: 0 20px 0 100px
-}
-
-.register_main .index_nav a:hover {
-	color: black;
-	border-bottom: solid 3px black
-}
-
-.register_form {
-	width: 85%;
-	height: 85%;
-}
-
-.register_form .group {
-	width: 70%;
-	height: 100%;
-}
-
-.register_form .group input {
-	width: 55%;
-	height: 30px;
-	margin-bottom: 10px;
-	color: black;
-}
-
-.group_captcha #captcha-btn {
-	width: 100%;
-	color: black;
-}
-
-.register_form .group #register-btn {
-	width: 100%;
-	color: black;
-	margin-left: 20%
-}
-</style>
-<script type="text/javascript" src="js/validator.min.js"></script>
-
-<!-- api接口 'adfadf/getEmailCaptcha"  参数：email=xxxxx 填入用户的邮箱账号，例如：   'afafdsfa/getEmialcaptcha?email=1263389261@qq.com'
-返回数据： "success"   或者 "faild:+失败信息" -->
-<script>
-	function sendEmailCaptcha() {
-		//1.获取用户的邮箱账号
-
-		//2使用ajax方法请求后台api接口发送验证码到指定邮箱
-
-		//3.接受后台api返回的结果，如果后台返回"success"那么代表后台已经发送验证码到用户邮箱，限制30秒之内不能再次点击发送验证码按钮
-
-		//3..接受后台api返回的结果，如果后台返回"success"那么代表后台无法发送验证码到用户邮箱，限制用户再不能点击按钮，并提示用户更换邮箱
-	}
-</script>
-</head>
-
-<body class="layout">
-	<div>
-		<!-------中间内容主体部分------->
-		<div class="register_container">
-			<div class="register_content">
-				<div class="register_header_logo">
-					<h1>Welcome to Black Cat Blog</h1>
+	<head>
+		<meta charset="utf-8">
+		
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+		<meta name="description" content="">
+		<meta name="author" content="">
+		<link rel="icon" href="favicon.ico">
+		<title>BlackCatBlog</title>
+		<!-- Bootstrap core CSS -->
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<link rel="stylesheet" href="css/font-awesome.min.css">
+		<!-- Custom styles for this template -->
+		<link href="css/jquery.bxslider.css" rel="stylesheet">
+		<link href="css/style.css" rel="stylesheet">
+		
+		<script src="js/bootstrap.min.js"></script>
+		<script src="js/jquery.bxslider.js"></script>
+		<script src="js/mooz.scripts.min.js"></script>
+		<script src="js/jquery.min.js"></script>
+		<script src="js/jquery.validate.min.js"></script>
+		<style>
+		.error{
+			color: red;
+		}
+		</style>
+		<script type="text/javascript">
+			function sendEmailCaptcha() {
+				/* var picture = document.getElementById("img-captcha");
+				picture.src = "api/captcha?time=" + Math.random(); */
+			}
+			
+			$.validator.setDefaults({
+			    submitHandler: function() {
+			      alert("提交事件!");
+			    }
+			});
+			
+			$().ready(function() {
+			// 在键盘按下并释放及提交后验证提交表单
+			  $("#form_register").validate({
+			    rules: {
+			      userLogin: {
+			      	required:true,
+					rangelength:[8,20]
+			      },			     
+			      userPass: {
+			      	required:true,
+					rangelength:[8,20]
+			      },
+			      userPass: {
+			      	required:true,
+					equalTo:"#userPass"
+			      }, 
+			      captcha: "required"
+			    },
+			    messages: {
+			      userLogin: "请输入您的账号",
+			      userPass: "请输入您的密码",
+			      captcha: "请输入您的验证码"
+			     }
+			    })
+			});
+			
+		</script>
+	</head>
+	<body>
+		<!-- Navigation -->
+		<nav class="navbar navbar-inverse navbar-fixed-top">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					</button>
 				</div>
-				<div class="register_main">
-					<!----------注册和登陆-------->
-					<div class="index_tab">
-						<div class="index_nav">
-							<a href="login.html">登陆</a> <a href="register.html">注册</a>
-						</div>
-					</div>
-					<!-------输入用户名或者 邮箱、   密码、验证码------>
-					<form id="register_form" action="#" method="post">
-						<div class="register_form">
-							<div class="group">
-								<div>
-									用户名：&nbsp;&nbsp;&nbsp; <input id="userLogin" type="text"
-										name="userLogin" placeholder="选择一个用户名"
-										onchange="blurValidate(this)" />
-									<p id="userLogin"></p>
-								</div>
-								<div>
-									登陆密码： <input type="password" name="userPass"
-										placeholder="设置登陆密码" onchange="blurValidate(this)" />
-									<p id="userPass"></p>
-								</div>
-								<div>
-									重复密码： <input type="password" name="rePass" placeholder="重复密码"
-										onchange="blurValidate(this)" />
-									<p id="rePass"></p>
-								</div>
-								<div>
-									邮箱地址： <input type="text" name="userEmail" placeholder="输入邮箱地址"
-										onchange="blurValidate(this)" />
-									<p id="userEmail"></p>
-								</div>
-								<div>
-									验证码：&nbsp;&nbsp;&nbsp; <input type="text" name="emailCaptcha"
-										placeholder="输入邮箱验证码" onchange="blurValidate(this)" />
-									<p id="emailCaptcha"></p>
-								</div>
-								<input id="captcha-btn" type="button" value="发送验证码"
-									onclick="sendEmailCaptcha()" />
-								<!------注册（提交）按钮------>
-								<div class="register_button">
-									<input type="submit" value="注册" />
-								</div>
-							</div>
-						</div>
-					</form>
+				<div id="navbar" class="collapse navbar-collapse">
+					<ul class="nav navbar-nav">
+						<li class="active"><a href="index.html">Home</a></li>						
+						<li><a href="about.html">About Me</a></li>						
+					</ul>					
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href="login.html">登陆</a></li>											
+					</ul>
+
 				</div>
+				<!--/.nav-collapse -->
 			</div>
-		</div>
-	</div>
-</body>
-<script type="text/javascript">
+		</nav>
 
-	var validator = new Validator('register_form', [
-		{
-			name : "userLogin",
-			display : "用户名不能为空|至少输入6个字符，您输入的{{userLogin}}长度少于6",
-			rules : 'required|min_length(6)'
-		}, {
-			name : "userPass",
-			display : "用户密码不能为空|字数小于8个字符|大于15个字符",
-			rules : 'required|min_length(8)|max_length(15)'
-		}, {
-			name : "rePass",
-			display : "确认密码不能为空|两次输入不一致",
-			reles : 'required|same({{userPass}})'
-		}, {
-			name : "userEmail",
-			display : "请输入您的邮箱|这不是一个邮箱",
-			rules : 'required|is_email'
-		}, {
-			name : "emailCaptcha",
-			display : "邮箱验证码不能为空",
-			rules : 'required'
-		}
-	]);/* , function(obj, evt) {
-		alert("chufa");
-		if (obj.errors.length > 0) {
-			// 判断是否错误
-			var error_str = '';
-			for (var i = 0; i < obj.errors.length; i++) {
-				document.getElementById(obj.errors[i].name).innerHTML = val.errors[i].message;
-			}
-		}
-	}); */
-
-	/* function blurValidate() {
-		validator.validate();
-	} */
-	function blurValidate(e) {
-		var val = validator.validate();
-		for (var i = 0; i < val.errors.length; i++) {
-			if (e.name == val.errors[i].name) {
-				document.getElementById(e.name).innerHTML = val.errors[i].display
-			}
-		}
-	}
-</script>
+		<div class="container">
+			<header>
+				<h1>REGISTER</h1>
+			</header>
+		
+		<div class="row mt">	
+			<div class="col-lg-8 col-lg-offset-2">
+				<form action="register.do" method="post">
+				  <div class="form-group">
+				  	<label for="userLogin">用户名：</label>
+				    <input type="text" class="form-control" name="userLogin" placeholder="input your username">
+				  </div>
+				  <div class="form-group">
+				  	<label for="userLogin">登陆密码：</label>
+				    <input type="text" class="form-control" name="userPass" placeholder="input your password">
+				  </div>
+				  <div class="form-group">
+				  	<label for="rePass">确认密码：</label>
+				    <input type="text" class="form-control" name="rePass" placeholder="input your password">				    
+				  </div>
+				  <div class="form-group">
+				  	<label for="userEmail">邮箱地址：</label>
+				    <input type="email" class="form-control" name="userEmail" placeholder="Enter email">
+				  </div>				  
+				  <div class="form-inline">
+					  	<label for="emailCaptcha">验证码：</label>
+					    <input type="text" class="form-control" name="emailCaptcha" placeholder="input your email captcha">
+					    <input type="button" class="btn btn-info" value="发送验证码">
+				  </div>	
+				  <br>
+				  <input type="submit" class="form-control btn btn-success" value="注册">			    
+				</form>
+			</div>
+		</div><!-- /row -->		
+		</div><!-- /.container -->
+		<br><br><br>
+		
+		<footer class="footer">
+			<div class="footer-bottom">
+				Copyright 2018. All rights reserved.<br>
+				github of <a href="http://github.com/ismyblue" target="_blank" title="ismyblue">ismyblue</a>
+			</div>
+		</footer>
+		
+	</body>
 </html>

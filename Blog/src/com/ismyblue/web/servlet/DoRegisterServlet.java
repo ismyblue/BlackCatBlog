@@ -39,7 +39,7 @@ public class DoRegisterServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		
 		if(!request.getParameter("emailCaptcha").equals(session.getAttribute(SessionAttr.EMAILCAPTCHA_STRING))){
-			request.setAttribute(RequestAttr.INFOMSG_STRING, "Email verification code error!");
+			request.setAttribute(RequestAttr.INFOMSG_STRING, "邮箱验证码错误!");
 			response.setHeader("refresh", "2;register.html");
 			request.getRequestDispatcher("info.jsp").forward(request, response);
 			return ;
