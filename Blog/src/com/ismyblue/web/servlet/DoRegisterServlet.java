@@ -19,6 +19,7 @@ import com.ismyblue.field.path.ConfigPathField;
 import com.ismyblue.field.tbfdvalue.UserPrivilegeTbField;
 import com.ismyblue.field.tbfdvalue.UserStatusTbField;
 import com.ismyblue.service.UserService;
+import com.ismyblue.util.MD5Util;
 
 public class DoRegisterServlet extends HttpServlet {
 
@@ -52,6 +53,7 @@ public class DoRegisterServlet extends HttpServlet {
 		} catch (IllegalAccessException | InvocationTargetException e) {			
 			e.printStackTrace();
 		}		
+		user.setUserPass(MD5Util.encode(user.getUserPass()));
 		user.setUserNicename(user.getUserLogin());
 		user.setUserUrl(ConfigPathField.DOMAINNAME_STRING+"/user/"+user.getUserLogin());
 		user.setSiteName(user.getUserLogin() + "'s website");
@@ -61,7 +63,6 @@ public class DoRegisterServlet extends HttpServlet {
 		user.setLoginIp(request.getRemoteAddr());
 		user.setUserStatus(UserStatusTbField.ENABLE_STRING);	
 		
-		System.out.println(user);
 		//分发转向
 		UserService userService = new UserService();
 		if(userService.addUser(user)){

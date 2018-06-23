@@ -28,38 +28,58 @@
 		</style>
 		<script type="text/javascript">
 			function sendEmailCaptcha() {
-				/* var picture = document.getElementById("img-captcha");
-				picture.src = "api/captcha?time=" + Math.random(); */
+				
 			}
 			
-			$.validator.setDefaults({
-			    submitHandler: function() {
-			      alert("提交事件!");
-			    }
-			});
-			
 			$().ready(function() {
+				
+				// 判断是否为合法字符(a-zA-Z0-9-_)
+			    jQuery.validator.addMethod("isRightfulString", function(value, element) {       
+			         return this.optional(element) || /^[A-Za-z0-9_-]+$/.test(value);       
+			    }, "只能填写以下字符(a-z,A-Z,0-9,-,_)");   	
+			    
 			// 在键盘按下并释放及提交后验证提交表单
 			  $("#form_register").validate({
 			    rules: {
 			      userLogin: {
 			      	required:true,
-					rangelength:[8,20]
+					isRightfulString:true,
+					rangelength:[8,20]					
 			      },			     
 			      userPass: {
 			      	required:true,
+			      	isRightfulString:true,
 					rangelength:[8,20]
 			      },
-			      userPass: {
+			      rePass: {
 			      	required:true,
 					equalTo:"#userPass"
 			      }, 
-			      captcha: "required"
+			      userEmail: {
+			      	required:true,
+			      	email:true
+			      },
+			      emailCaptcha: "required"
 			    },
 			    messages: {
-			      userLogin: "请输入您的账号",
-			      userPass: "请输入您的密码",
-			      captcha: "请输入您的验证码"
+			      userLogin: {
+			      	required:"请输入您的账号",
+			      	isAccount:"不能包含'/','*','?','&'字符",
+			      	rangelength:"要求账号长度在8-20个字母之间"
+			      },
+			      userPass: {
+			      	required:"请输入您的密码",
+			      	rangelength:"要求密码长度在8-20个字母之间"
+			      },
+			      rePass: {
+			      	required:"请确认您的密码",
+			      	equalTo:"两次输入不一致"
+			      },
+			      userEmail: {
+			      	required:"请输入您的邮箱账号",
+			      	email:"请输入一个正确的邮箱"
+			      },
+			      emailCaptcha: "请输入您的验证码"			      
 			     }
 			    })
 			});
@@ -99,26 +119,26 @@
 		
 		<div class="row mt">	
 			<div class="col-lg-8 col-lg-offset-2">
-				<form action="register.do" method="post">
+				<form id="form_register" action="register.do" method="post">
 				  <div class="form-group">
 				  	<label for="userLogin">用户名：</label>
-				    <input type="text" class="form-control" name="userLogin" placeholder="input your username">
+				    <input type="text" class="form-control" id="userLogin" name="userLogin" placeholder="input your username">
 				  </div>
 				  <div class="form-group">
 				  	<label for="userLogin">登陆密码：</label>
-				    <input type="text" class="form-control" name="userPass" placeholder="input your password">
+				    <input type="password" class="form-control" id="userPass" name="userPass" placeholder="input your password">
 				  </div>
 				  <div class="form-group">
 				  	<label for="rePass">确认密码：</label>
-				    <input type="text" class="form-control" name="rePass" placeholder="input your password">				    
+				    <input type="password" class="form-control" id="rePass" name="rePass" placeholder="input your password">				    
 				  </div>
 				  <div class="form-group">
 				  	<label for="userEmail">邮箱地址：</label>
-				    <input type="email" class="form-control" name="userEmail" placeholder="Enter email">
+				    <input type="email" class="form-control" id="userEmail" name="userEmail" placeholder="Enter email">
 				  </div>				  
 				  <div class="form-inline">
 					  	<label for="emailCaptcha">验证码：</label>
-					    <input type="text" class="form-control" name="emailCaptcha" placeholder="input your email captcha">
+					    <input type="text" class="form-control" id="emailCpatcha" name="emailCaptcha" placeholder="input your email captcha">
 					    <input type="button" class="btn btn-info" value="发送验证码">
 				  </div>	
 				  <br>

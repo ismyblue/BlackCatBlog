@@ -3,6 +3,7 @@ package com.ismyblue.service;
 import com.ismyblue.dao.UserDAO;
 import com.ismyblue.dao.impl.UserDAOImpl;
 import com.ismyblue.entity.User;
+import com.ismyblue.util.MD5Util;
 
 public class UserService {
 
@@ -35,16 +36,20 @@ public class UserService {
 	}
 	
 	/**
-	 * 登陆成功返回一个User实体，不成功返回null
+	 * 登陆成功返回一个User实体，不成功返回null.验证方法md5(md5(userPassword)+captcha)) == md5(md5(targetPassword)+captcha))
+	 * user.getUserPass() = md5(md5(userPassword)+captcha))
+	 * dbuser.getUserPass() = md5(userPassword)
 	 * @param user
+	 * @param captcha 
 	 * @return
 	 */
-	public User login(User user) {
+	public User login(User user, String captcha) {
 		UserDAO userDao = new UserDAOImpl();
 		User dbuser = userDao.findUserByUserLogin(user.getUserLogin());
 		if(dbuser == null)
 			return null;
-		if(dbuser.getUserPass().equals(user.getUserPass())){
+		
+		if(user.getUserPass().equals(MD5Util.encode(dbuser.getUserPass() + captcha))){
 			return dbuser;
 		}
 		return null;

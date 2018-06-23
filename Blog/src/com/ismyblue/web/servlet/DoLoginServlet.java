@@ -41,11 +41,18 @@ public class DoLoginServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 		
-		UserService userService = new UserService();
 		String captcha = request.getParameter("captcha");
-		User dbUser = userService.login(user);
-		if(dbUser == null || !captcha.equalsIgnoreCase((String) request.getSession().getAttribute(SessionAttr.CAPTCHA_STRING))){			
-			request.setAttribute(RequestAttr.INFOMSG_STRING, "用户登录失败!");
+		if(!captcha.equalsIgnoreCase((String) request.getSession().getAttribute(SessionAttr.CAPTCHA_STRING))){
+			request.setAttribute(RequestAttr.INFOMSG_STRING, "验证码错误!");
+			response.setHeader("refresh", "2;login.html");
+			request.getRequestDispatcher("info.jsp").forward(request, response);
+			return ;
+		}
+		UserService userService = new UserService();
+		User dbUser = userService.login(user, captcha);
+		
+		if(dbUser == null){			
+			request.setAttribute(RequestAttr.INFOMSG_STRING, "账号或者密码错误!");
 			response.setHeader("refresh", "2;login.html");
 			request.getRequestDispatcher("info.jsp").forward(request, response);
 		}else {	

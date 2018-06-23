@@ -19,6 +19,7 @@
 		<script src="js/jquery.bxslider.js"></script>
 		<script src="js/mooz.scripts.min.js"></script>
 		<script src="js/jquery.min.js"></script>
+		<script src="js/md5.js"></script>
 		<script src="js/jquery.validate.min.js"></script>
 		<style>
 		.error{
@@ -29,15 +30,20 @@
 			function changeCaptcha() {
 				var picture = document.getElementById("img-captcha");
 				picture.src = "api/captcha?time=" + Math.random();
-			}
-			
-			$.validator.setDefaults({
-			    submitHandler: function() {
-			      alert("提交事件!");
-			    }
-			});
+			}			
 			
 			$().ready(function() {
+			
+			$("#form_login").submit(function(e){				
+				var userPass = $("#userPass").val();
+				if(userPass == "")
+					return ;
+		  		var userPassMd5 = $.md5(userPass);
+		    	var captcha = $("#captcha").val();
+		    	var md5Value = $.md5(userPassMd5 + captcha);
+		    	$("#userPass").val(md5Value);
+			});
+			
 			// 在键盘按下并释放及提交后验证提交表单
 			  $("#form_login").validate({
 			    rules: {
@@ -95,7 +101,7 @@
 				  </div>
 				  <div class="form-group">
 				  	<label for="userLogin">登陆密码：</label>
-				    <input type="text" class="form-control" id="userPass" name="userPass" placeholder="input your password">
+				    <input type="password" class="form-control" id="userPass" name="userPass" placeholder="input your password">
 				  </div>		  
 				  <div class="form-inline">
 					  	<label for="captcha">验证码：</label>
