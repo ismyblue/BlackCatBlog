@@ -145,7 +145,7 @@ public class UsersServlet extends HttpServlet {
 	}
 	
 	/**
-	 * 更新一个用户
+	 * 获得一个用户
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//处理获取用户个数请求				
@@ -160,6 +160,7 @@ public class UsersServlet extends HttpServlet {
 		String count = request.getParameter("count");
 		User loginedUser = (User) request.getSession().getAttribute(SessionAttr.USER_STRING);		
 		if(loginedUser == null){
+			response.setStatus(403);
 			response.getWriter().write("failed: 没有登陆信息");return ;
 		}		
 		UserService userService = new UserService();

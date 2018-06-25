@@ -8,27 +8,61 @@
 		<meta name="description" content="">
 		<meta name="author" content="">
 		<link rel="icon" href="favicon.ico">
-		<title>BlackCatBlog</title>
-		<!-- Bootstrap core CSS -->
+		<title>Register</title>
+		
 		<link href="css/bootstrap.min.css" rel="stylesheet">
-		<link rel="stylesheet" href="css/font-awesome.min.css">
-		<!-- Custom styles for this template -->
 		<link href="css/jquery.bxslider.css" rel="stylesheet">
 		<link href="css/style.css" rel="stylesheet">
-		
+		<script src="js/jquery.min.js"></script>
 		<script src="js/bootstrap.min.js"></script>
 		<script src="js/jquery.bxslider.js"></script>
 		<script src="js/mooz.scripts.min.js"></script>
-		<script src="js/jquery.min.js"></script>
-		<script src="js/jquery.validate.min.js"></script>
+		<script src="js/md5.js"></script>
+		<script src="js/jquery.validate.min.js"></script>		
+		
 		<style>
 		.error{
 			color: red;
 		}
 		</style>
 		<script type="text/javascript">
-			function sendEmailCaptcha() {
+			function sendEmailCaptcha() {				
 				
+				$("#sendBtn").val("正在发送...");
+				$("#sendBtn").attr("disabled",true);
+				$.ajax({ //一个Ajax过程
+					type: "post",  //以post方式与后台沟通
+					url : "api/emailcaptcha", //与此php页面沟通
+					dataType: "text",
+					data: {
+						email: $("#userEmail").val(),
+						type: "register"
+					},   
+					success: function(json){//如果调用成功
+						if(json == "success"){
+							var second = 30;//开始倒计时时间
+							//倒计时计时器，每隔1秒执行一次
+							var t1 = setInterval(function (){
+								$("#sendBtn").val(second-- + "后可重新发送");
+							},1000);
+							//30秒后执行一次
+							var t2 = setTimeout(function (){
+								clearInterval(t1);
+								clearTimeout(t2);
+								$("#sendBtn").removeAttr("disabled");
+								$("#sendBtn").val("发送验证码");
+							},30000);
+						}else{
+							$("#sendBtn").val("发送失败，请重试");
+							$("#sendBtn").removeAttr("disabled");
+						}
+					},
+					error: function(json){
+						$("#sendBtn").val("发送失败，请重试");
+						$("#sendBtn").removeAttr("disabled");
+					}
+				});			
+					
 			}
 			
 			$().ready(function() {
@@ -139,7 +173,7 @@
 				  <div class="form-inline">
 					  	<label for="emailCaptcha">验证码：</label>
 					    <input type="text" class="form-control" id="emailCpatcha" name="emailCaptcha" placeholder="input your email captcha">
-					    <input type="button" class="btn btn-info" value="发送验证码">
+					    <input type="button" class="btn btn-info" id="sendBtn" onclick="sendEmailCaptcha()" value="发送验证码">
 				  </div>	
 				  <br>
 				  <input type="submit" class="form-control btn btn-success" value="注册">			    

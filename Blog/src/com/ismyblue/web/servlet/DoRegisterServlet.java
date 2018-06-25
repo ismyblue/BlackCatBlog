@@ -70,7 +70,7 @@ public class DoRegisterServlet extends HttpServlet {
 			response.setHeader("refresh", "2;url=login.html");
 			request.getRequestDispatcher("info.jsp").forward(request, response);				
 		}else {			
-			request.setAttribute(RequestAttr.INFOMSG_STRING,"用户注册失败！2秒后跳转");
+			request.setAttribute(RequestAttr.INFOMSG_STRING,"用户注册失败！邮箱或用户名被注册！2秒后跳转");
 			response.setHeader("refresh", "2;url=register.html");
 			request.getRequestDispatcher("info.jsp").forward(request, response);			
 		}
