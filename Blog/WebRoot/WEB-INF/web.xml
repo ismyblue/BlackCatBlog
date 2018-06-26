@@ -4,12 +4,15 @@
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
 	id="WebApp_ID" version="3.1">
 	<display-name>Blog</display-name>
-
 	<context-param>
 		<param-name>DomainName</param-name>
 		<param-value>www.ismyblue.com</param-value>
 	</context-param>
-
+	
+	<filter>
+		<filter-name>ApiFilter</filter-name>
+		<filter-class>com.ismyblue.web.filter.ApiFilter</filter-class>
+	</filter>
 	<filter>
 		<filter-name>EncodingFilter</filter-name>
 		<filter-class>com.ismyblue.web.filter.EncodingFilter</filter-class>
@@ -17,12 +20,14 @@
 	<filter-mapping>
 		<filter-name>EncodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
+	</filter-mapping>	
+	<filter-mapping>
+		<filter-name>ApiFilter</filter-name>
+		<url-pattern>/api/*</url-pattern>
 	</filter-mapping>
-
 	<listener>
 		<listener-class>com.ismyblue.web.listener.InitAppPathListener</listener-class>
 	</listener>
-
 	<servlet>
 		<servlet-name>DoLoginServlet</servlet-name>
 		<servlet-class>com.ismyblue.web.servlet.DoLoginServlet</servlet-class>
@@ -63,9 +68,10 @@
 		<servlet-name>CommentsServlet</servlet-name>
 		<servlet-class>com.ismyblue.web.servlet.api.CommentsServlet</servlet-class>
 	</servlet>
-
-
-
+  <servlet>
+    <servlet-name>SearchServlet</servlet-name>
+    <servlet-class>com.ismyblue.web.servlet.api.SearchServlet</servlet-class>
+  </servlet>
 
 	<servlet-mapping>
 		<servlet-name>DoLoginServlet</servlet-name>
@@ -118,7 +124,10 @@
 		<url-pattern>/api/comments</url-pattern>
 		<url-pattern>/api/comments/amount</url-pattern>
 	</servlet-mapping>
-
+  <servlet-mapping>
+    <servlet-name>SearchServlet</servlet-name>
+    <url-pattern>/api/search</url-pattern>
+  </servlet-mapping>
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 		<welcome-file>index.htm</welcome-file>
@@ -127,7 +136,6 @@
 		<welcome-file>default.htm</welcome-file>
 		<welcome-file>default.jsp</welcome-file>
 	</welcome-file-list>
-
 	<error-page>
 		<error-code>404</error-code>
 		<location>/error.jsp</location>

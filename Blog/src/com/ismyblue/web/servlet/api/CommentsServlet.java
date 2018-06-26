@@ -22,6 +22,7 @@ import com.ismyblue.field.tbfdvalue.CommentVisibleTbField;
 import com.ismyblue.field.tbfdvalue.UserPrivilegeTbField;
 import com.ismyblue.service.CommentService;
 import com.ismyblue.service.PostService;
+import com.ismyblue.util.JsonConvertUtil;
 import com.ismyblue.util.MyConvert;
 
 import net.sf.json.JSONArray;
@@ -44,7 +45,7 @@ public class CommentsServlet extends HttpServlet {
 	private User getLoginedUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		User loginedUser = (User) request.getSession().getAttribute(SessionAttr.USER_STRING);
 		if(loginedUser == null){
-			response.getWriter().print("failed:用户未登录！");
+			response.getWriter().print(JsonConvertUtil.getJsonObject("result", "failed:用户未登录！"));
 			return null;
 		}
 		return loginedUser;
@@ -77,9 +78,9 @@ public class CommentsServlet extends HttpServlet {
 		CommentService commentService = new CommentService();
 		//没有登陆用户也能评论。	
 		if(commentService.addComment(comment)){
-			response.getWriter().print("success");
+			response.getWriter().print(JsonConvertUtil.getJsonObject("result", "success"));
 		}else {
-			response.getWriter().print("failed:添加失败");
+			response.getWriter().print(JsonConvertUtil.getJsonObject("result", "failed:添加失败"));
 		}	
 		
 	}	
@@ -92,7 +93,7 @@ public class CommentsServlet extends HttpServlet {
 		User loginedUser = getLoginedUser(request, response);
 		String idString = request.getParameter("id");
 		if(idString == null){
-			response.getWriter().print("failed:没有id参数");return;
+			response.getWriter().print(JsonConvertUtil.getJsonObject("result", "failed:没有id参数"));return;
 		}
 		int id = Integer.parseInt(idString);
 		CommentService commentService = new CommentService();
@@ -102,12 +103,12 @@ public class CommentsServlet extends HttpServlet {
 		//如果用户不是管理员，并且这个评论不是指定用户的文章下的评论，那么可以删除
 		if(!loginedUser.getUserPrivilege().equals(UserPrivilegeTbField.ADMIN_STRING) 
 				&& findPost.getUserId() != loginedUser.getId()){
-			response.getWriter().print("falied:没有权限，此评论没有评论在你的文章下");return ;
+			response.getWriter().print(JsonConvertUtil.getJsonObject("result", "falied:没有权限，此评论没有评论在你的文章下"));return ;
 		}
 		if(commentService.removeComment(id)){
-			response.getWriter().print("success");
+			response.getWriter().print(JsonConvertUtil.getJsonObject("result", "success"));
 		}else {
-			response.getWriter().print("failed:删除失败");
+			response.getWriter().print(JsonConvertUtil.getJsonObject("result", "failed:删除失败"));
 		}
 		
 	}
@@ -169,13 +170,13 @@ public class CommentsServlet extends HttpServlet {
 			//如果用户不是管理员，并且评论不属于登陆用户的文章下
 			if(!loginedUser.getUserPrivilege().equals(UserPrivilegeTbField.ADMIN_STRING)
 					&& new PostService().findPost(findComment.getPostId()).getUserId() == loginedUser.getId()){
-				response.getWriter().print("failed:评论不属于登陆用户的文章");return ;
+				response.getWriter().print(JsonConvertUtil.getJsonObject("result", "failed:评论不属于登陆用户的文章"));return ;
 			}
 			response.getWriter().print(getCommentsJsonObject(findComment));
 		}else if(postIdString != null && pageString != null && countString != null){
 			if(!loginedUser.getUserPrivilege().equals(UserPrivilegeTbField.ADMIN_STRING)
 					&& new PostService().findPost(Integer.parseInt(postIdString)).getUserId() == loginedUser.getId()){
-				response.getWriter().print("failed:评论不属于登陆用户的文章");return ;
+				response.getWriter().print(JsonConvertUtil.getJsonObject("result", "failed:评论不属于登陆用户的文章"));return ;
 			}
 			Comment[] findComments = commentService.getComments(Integer.parseInt(postIdString),
 					Integer.parseInt(pageString), Integer.parseInt(countString));
@@ -206,16 +207,16 @@ public class CommentsServlet extends HttpServlet {
 			//如果当前登陆用户不是管理员，并且这个评论不属于用户的文章下的评论，那么返回错误信息
 			if(!loginedUser.getUserPrivilege().equals(UserPrivilegeTbField.ADMIN_STRING)
 					&& findPost.getUserId() != loginedUser.getId()){
-				response.getWriter().print("failed:没有权限，这个评论不属于当前用户的文章");
+				response.getWriter().print(JsonConvertUtil.getJsonObject("result", "failed:没有权限，这个评论不属于当前用户的文章"));
 				return ;
 			}
 			long amount = commentService.getAmountByCommentId(id);
-			response.getWriter().print(amount);
+			response.getWriter().print(JsonConvertUtil.getJsonObject("result", amount));
 		//查询某一文章的子评论的数量
 		}else if(postIdString != null){
 			int postId = Integer.parseInt(postIdString);
 			long amount = commentService.getAmountByPostId(postId);
-			response.getWriter().print(amount);
+			response.getWriter().print(JsonConvertUtil.getJsonObject("result", amount));
 		}
 		
 	}

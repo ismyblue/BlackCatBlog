@@ -16,6 +16,7 @@ import com.ismyblue.field.http.SessionAttr;
 import com.ismyblue.field.tbfdvalue.LinkDeleteTbField;
 import com.ismyblue.field.tbfdvalue.UserPrivilegeTbField;
 import com.ismyblue.service.LinkService;
+import com.ismyblue.util.JsonConvertUtil;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -37,7 +38,7 @@ public class LinksServlet extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		User loginedUser = (User) request.getSession().getAttribute(SessionAttr.USER_STRING);
 		if(loginedUser == null){
-			response.getWriter().print("failed:用户未登录！");return ;			
+			response.getWriter().print(JsonConvertUtil.getJsonObject("result", "failed:用户未登录！"));return ;			
 		}
 		Link link = new Link();
 		try {
@@ -46,17 +47,16 @@ public class LinksServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 		link.setLinkDelete(LinkDeleteTbField.NODELETE_STRING);
-		System.out.println(link);
 		//如果登陆用户不是管理员，那么只能为自己添加link
 		if(!loginedUser.getUserPrivilege().equals(UserPrivilegeTbField.ADMIN_STRING)
 				&& link.getUserId()!=loginedUser.getId()){
-			response.getWriter().print("failed:要添加的链接的用户id不是登录用户id");return ;
+			response.getWriter().print(JsonConvertUtil.getJsonObject("result", "failed:要添加的链接的用户id不是登录用户id"));return ;
 		}
 		LinkService linkService = new LinkService();
 		if(linkService.addLink(link)){
-			response.getWriter().print("success");
+			response.getWriter().print(JsonConvertUtil.getJsonObject("result", "success"));
 		}else {
-			response.getWriter().print("failed:添加链接失败!linkUrl不能重复");
+			response.getWriter().print(JsonConvertUtil.getJsonObject("result", "failed:添加链接失败!linkUrl不能重复"));
 		}
 		
 	}
@@ -69,11 +69,12 @@ public class LinksServlet extends HttpServlet {
 			throws ServletException, IOException {
 		User loginedUser = (User) request.getSession().getAttribute(SessionAttr.USER_STRING);
 		if(loginedUser == null){
-			response.getWriter().print("failed:用户未登录！");return ;			
+			response.getWriter().print(JsonConvertUtil.getJsonObject("result", "failed:用户未登录！"));return ;			
 		}
 		
 		String idString = request.getParameter("id");
 		if(idString == null){
+			response.setStatus(400);
 			response.getWriter().print("failed:没有参数");return ;
 		}
 		int id = Integer.parseInt(idString);
@@ -82,12 +83,12 @@ public class LinksServlet extends HttpServlet {
 		//如果登陆用户不是管理员并且用户链接不属于登陆用户
 		if(!loginedUser.getUserPrivilege().equals(UserPrivilegeTbField.ADMIN_STRING)
 				&& findLink.getUserId() != loginedUser.getId()){
-			response.getWriter().print("failed:此链接不属于登陆用户!");
+			response.getWriter().print(JsonConvertUtil.getJsonObject("result", "failed:此链接不属于登陆用户!"));
 		}
 		if(linkService.removeLink(id)){
-			response.getWriter().print("success");
+			response.getWriter().print(JsonConvertUtil.getJsonObject("result", "success"));
 		}else {
-			response.getWriter().print("failed:删除失败!");
+			response.getWriter().print(JsonConvertUtil.getJsonObject("result", "failed:删除失败!"));
 		}
 	}
 
@@ -97,7 +98,7 @@ public class LinksServlet extends HttpServlet {
 	public void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		User loginedUser = (User) request.getSession().getAttribute(SessionAttr.USER_STRING);
 		if(loginedUser == null){
-			response.getWriter().print("falied:用户未登录！");return ;
+			response.getWriter().print(JsonConvertUtil.getJsonObject("result", "falied:用户未登录！"));return ;
 		}
 		
 		Link newLink = new Link();
@@ -109,17 +110,17 @@ public class LinksServlet extends HttpServlet {
 		LinkService linkService = new LinkService();
 		Link findLink = linkService.findLink(newLink.getId());
 		if(findLink == null){
-			response.getWriter().print("failed:此链接不存在");return ;
+			response.getWriter().print(JsonConvertUtil.getJsonObject("result", "failed:此链接不存在"));return ;
 		}
 		//如果登陆用户不是管理员，那么只可以更新自己的link
 		if(!loginedUser.getUserPrivilege().equals(UserPrivilegeTbField.ADMIN_STRING)
 				&& findLink.getUserId() != loginedUser.getId()){
-			response.getWriter().print("failed:此链接不属于登陆用户");return ;
+			response.getWriter().print(JsonConvertUtil.getJsonObject("result", "failed:此链接不属于登陆用户"));return ;
 		}	
 		if(linkService.updateLink(newLink)){
-			response.getWriter().print("success");
+			response.getWriter().print(JsonConvertUtil.getJsonObject("result", "success"));
 		}else {
-			response.getWriter().print("failed:更新失败！linkUrl不能重复");
+			response.getWriter().print(JsonConvertUtil.getJsonObject("result", "failed:更新失败！linkUrl不能重复"));
 		}
 
 	}
@@ -130,7 +131,7 @@ public class LinksServlet extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		User loginedUser = (User) request.getSession().getAttribute(SessionAttr.USER_STRING);
 		if(loginedUser == null){
-			response.getWriter().print("failed:用户未登录！");return ;
+			response.getWriter().print(JsonConvertUtil.getJsonObject("result", "failed:用户未登录！"));return ;
 		}
 		
 		if(request.getServletPath().equals("/api/links/amount")){
@@ -146,7 +147,7 @@ public class LinksServlet extends HttpServlet {
 		//如果登陆用户不是管理员，那么只能查找自己的links
 		if(!loginedUser.getUserPrivilege().equals(UserPrivilegeTbField.ADMIN_STRING) 
 				&& userId != loginedUser.getId()){
-			response.getWriter().print("failed:不能查找别人的link");
+			response.getWriter().print(JsonConvertUtil.getJsonObject("result", "failed:不能查找别人的link"));
 		}
 
 		String pageString = request.getParameter("page");
@@ -161,12 +162,12 @@ public class LinksServlet extends HttpServlet {
 		}else if(idString != null){
 			Link findLink = linkService.findLink(Integer.parseInt(idString));
 			if(findLink == null){
-				response.getWriter().print("failed:此链接不存在！");return ;
+				response.getWriter().print(JsonConvertUtil.getJsonObject("result", "failed:此链接不存在！"));return ;
 			}
 			//如果登陆用户不是管理员，那么只能查找自己的链接link
 			if(!loginedUser.getUserPrivilege().equals(UserPrivilegeTbField.ADMIN_STRING)
 					&& findLink.getUserId() != loginedUser.getId()){
-				response.getWriter().print("failed:此链接不属于登陆用户！");return ;
+				response.getWriter().print(JsonConvertUtil.getJsonObject("result", "failed:此链接不属于登陆用户！"));return ;
 			}
 			response.getWriter().print(getLinksJsonObject(findLink));
 		//输出用户所有的link
@@ -191,7 +192,7 @@ public class LinksServlet extends HttpServlet {
 		}
 		LinkService linkService = new LinkService();
 		try {
-			response.getWriter().print(linkService.getAmount(userId));
+			response.getWriter().print(JsonConvertUtil.getJsonObject("result", linkService.getAmount(userId)));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

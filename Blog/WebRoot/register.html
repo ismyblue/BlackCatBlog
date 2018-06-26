@@ -33,13 +33,14 @@
 				$.ajax({ //一个Ajax过程
 					type: "post",  //以post方式与后台沟通
 					url : "api/emailcaptcha", //与此php页面沟通
-					dataType: "text",
+					dataType: "json",
 					data: {
 						email: $("#userEmail").val(),
 						type: "register"
 					},   
 					success: function(json){//如果调用成功
-						if(json == "success"){
+						
+						if(json.result == "success"){
 							var second = 30;//开始倒计时时间
 							//倒计时计时器，每隔1秒执行一次
 							var t1 = setInterval(function (){
@@ -56,13 +57,12 @@
 							$("#sendBtn").val("发送失败，请重试");
 							$("#sendBtn").removeAttr("disabled");
 						}
+						
 					},
-					error: function(json){
-						$("#sendBtn").val("发送失败，请重试");
-						$("#sendBtn").removeAttr("disabled");
+					error: function(jqXHR, exception) {
+			           alert(jqXHR.responseText);	        
 					}
 				});			
-					
 			}
 			
 			$().ready(function() {

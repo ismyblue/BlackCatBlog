@@ -21,6 +21,7 @@ import com.ismyblue.field.http.SessionAttr;
 import com.ismyblue.field.tbfdvalue.UserPrivilegeTbField;
 import com.ismyblue.service.CategoryService;
 import com.ismyblue.service.PostService;
+import com.ismyblue.util.JsonConvertUtil;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -52,13 +53,14 @@ public class PostsServlet extends HttpServlet {
 			BeanUtils.populate(post, request.getParameterMap());
 		} catch (IllegalAccessException | InvocationTargetException e) {
 			e.printStackTrace();
+			response.setStatus(400);
 			response.getWriter().write("failed: " + e.getMessage());
 		}	
 		
 		User loginedUser = (User) request.getSession().getAttribute(SessionAttr.USER_STRING);
 		//如果用户未登录
 		if(loginedUser == null){
-			response.getWriter().print("failed:用户未登录！");return ;
+			response.getWriter().print(JsonConvertUtil.getJsonObject("result", "failed:用户未登录！"));return ;
 		}
 		//如果用户不是管理员，只能为自己添加文章
 		if(!loginedUser.getUserPrivilege().equals(UserPrivilegeTbField.ADMIN_STRING)){
@@ -68,10 +70,10 @@ public class PostsServlet extends HttpServlet {
 		post.setPostModified(new Date());
 		PostService postService = new PostService();
 		if(postService.addPost(post)){
-			response.getWriter().print("success");
+			response.getWriter().print(JsonConvertUtil.getJsonObject("result", "success"));
 			return ;
 		}else{
-			response.getWriter().print("failed:添加失败!可能原因：信息不正确");
+			response.getWriter().print(JsonConvertUtil.getJsonObject("result", "failed:添加失败!可能原因：信息不正确"));
 		}
 	}
 
@@ -82,28 +84,29 @@ public class PostsServlet extends HttpServlet {
 			throws ServletException, IOException {
 		String idString = request.getParameter("id");
 		if(idString == null || idString == ""){
+			response.setStatus(400);
 			response.getWriter().print("failed:没有参数");return ;
 		}
 		int id = Integer.parseInt(idString);
 		User loginedUser = (User) request.getSession().getAttribute(SessionAttr.USER_STRING);
 		if(loginedUser == null){
-			response.getWriter().print("failed:用户未登录！");return ;			
+			response.getWriter().print(JsonConvertUtil.getJsonObject("result", "failed:用户未登录！"));return ;			
 		}
 		PostService postService = new PostService();
 		Post findPost = postService.findPost(id);
 		if(findPost == null){
-			response.getWriter().print("failed:文章不存在！");return ;
+			response.getWriter().print(JsonConvertUtil.getJsonObject("result", "failed:文章不存在！"));return ;
 		}
 		//如果用户不是管理员，那么只能删除自己的文章
 		if(!loginedUser.getUserPrivilege().equals(UserPrivilegeTbField.ADMIN_STRING)){
 			if(findPost.getUserId() != loginedUser.getId()){
-				response.getWriter().print("failed:文章不属于请求用户！");return ;	
+				response.getWriter().print(JsonConvertUtil.getJsonObject("result", "failed:文章不属于请求用户！"));return ;	
 			}
 		}
 		if(postService.removePost(id)){
-			response.getWriter().print("success");return ;	
+			response.getWriter().print(JsonConvertUtil.getJsonObject("result", "success"));return ;	
 		}else{
-			response.getWriter().print("failed:删除失败！");return ;	
+			response.getWriter().print(JsonConvertUtil.getJsonObject("result", "failed:删除失败！"));return ;	
 		}
 	}
 	
@@ -115,7 +118,7 @@ public class PostsServlet extends HttpServlet {
 		User loginedUser = (User) request.getSession().getAttribute(SessionAttr.USER_STRING);
 		//如果用户未登录
 		if(loginedUser == null){
-			response.getWriter().print("failed:用户未登录！");return ;
+			response.getWriter().print(JsonConvertUtil.getJsonObject("result", "failed:用户未登录！"));return ;
 		}
 		
 		Post newPost = new Post();
@@ -124,24 +127,25 @@ public class PostsServlet extends HttpServlet {
 			BeanUtils.populate(newPost, request.getParameterMap());
 		} catch (IllegalAccessException | InvocationTargetException e) {
 			e.printStackTrace();
+			response.setStatus(400);
 			response.getWriter().write("failed: " + e.getMessage());
 		}
 
 		PostService postService = new PostService();
 		Post dbPost = postService.findPost(newPost.getId());
 		if(dbPost == null){
-			response.getWriter().write("failed:没有这个文章");return ;
+			response.getWriter().print(JsonConvertUtil.getJsonObject("result", "failed:没有这个文章"));return ;
 		}
 		//如果登陆用户不是管理员,只能修改自己的文章
 		if(!loginedUser.getUserPrivilege().equals(UserPrivilegeTbField.ADMIN_STRING)){
 			if(newPost.getUserId() != loginedUser.getId()){
-				response.getWriter().write("failed:此文章不属于登陆用户!");return ;
+				response.getWriter().print(JsonConvertUtil.getJsonObject("result", "failed:此文章不属于登陆用户!"));return ;
 			}
 		}
 		if(postService.updatePost(newPost)){
-			response.getWriter().write("success");return ;
+			response.getWriter().print(JsonConvertUtil.getJsonObject("result", "success"));return ;
 		}else {
-			response.getWriter().write("failed:更新文章失败!");return ;
+			response.getWriter().print(JsonConvertUtil.getJsonObject("result", "failed:更新文章失败!"));return ;
 		}
 		
 	}	
@@ -159,7 +163,7 @@ public class PostsServlet extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		User loginedUser = (User) request.getSession().getAttribute(SessionAttr.USER_STRING);
 		if(loginedUser == null){
-			response.getWriter().print("failed:用户未登录！");return ;
+			response.getWriter().print(JsonConvertUtil.getJsonObject("result", "failed:用户未登录！"));return ;
 		}
 		
 		if(request.getServletPath().equals("/api/posts/amount")){
@@ -191,12 +195,12 @@ public class PostsServlet extends HttpServlet {
 		}else if(idString != null){
 			Post findPost = postService.findPost(Integer.parseInt(idString));
 			if(findPost == null){
-				response.getWriter().print("failed:文章不存在");return ;	
+				response.getWriter().print(JsonConvertUtil.getJsonObject("result", "failed:文章不存在"));return ;	
 			}
 			//普通用户不能查找不是自己的文章
 			if(!loginedUser.getUserPrivilege().equals(UserPrivilegeTbField.ADMIN_STRING) 
 					&& findPost.getUserId() != loginedUser.getId()){
-				response.getWriter().print("failed:此文章不属于登陆用户");return ;	
+				response.getWriter().print(JsonConvertUtil.getJsonObject("result", "failed:此文章不属于登陆用户"));return ;	
 			}
 			response.getWriter().print(getPostsJsonObject(findPost));
 		//查询某一分类下的所有文章信息
@@ -205,7 +209,7 @@ public class PostsServlet extends HttpServlet {
 			//普通用户不能查找不是自己的分类下的文章
 			if(!loginedUser.getUserPrivilege().equals(UserPrivilegeTbField.ADMIN_STRING) 
 					&& new CategoryService().findCategory(categoryId).getUserId() != loginedUser.getId()){
-				response.getWriter().print("failed:此分类不属于登陆用户");return ;	
+				response.getWriter().print(JsonConvertUtil.getJsonObject("result", "failed:此分类不属于登陆用户"));return ;	
 			}
 			Post[] findPosts = postService.findPostsByCategoryId(categoryId);
 			response.getWriter().print(getPostsJsonObject(findPosts));
@@ -224,21 +228,21 @@ public class PostsServlet extends HttpServlet {
 		String categoryIdString = request.getParameter("categoryId");
 		
 		if(categoryIdString == null){
-			response.getWriter().print("falied:没有指定categoryId");			
+			response.getWriter().print(JsonConvertUtil.getJsonObject("result", "falied:没有指定categoryId"));			
 		}
 		int categoryId = Integer.parseInt(categoryIdString);
-		System.out.println(categoryId);
+
 		CategoryService categoryService = new CategoryService();
 		Category findCategory = categoryService.findCategory(categoryId);
 		if(findCategory == null){			
-			response.getWriter().print("falied:此categoryId不存在");
+			response.getWriter().print(JsonConvertUtil.getJsonObject("result", "falied:此categoryId不存在"));
 		}
 		if(!loginedUser.getUserPrivilege().equals(UserPrivilegeTbField.ADMIN_STRING) 
 				&& findCategory.getUserId() != loginedUser.getId()){
-			response.getWriter().print("falied:此分类不属于登陆用户");return ;
+			response.getWriter().print(JsonConvertUtil.getJsonObject("result", "falied:此分类不属于登陆用户"));return ;
 		}
 		PostService postService = new PostService();
-		response.getWriter().print(postService.getAmount(categoryId));
+		response.getWriter().print(JsonConvertUtil.getJsonObject("result", postService.getAmount(categoryId)));
 	}
 
 	private JSONObject postToJsonObject(Post post){

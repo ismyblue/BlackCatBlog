@@ -20,6 +20,7 @@ import com.ismyblue.field.http.SessionAttr;
 import com.ismyblue.field.tbfdvalue.UserPrivilegeTbField;
 import com.ismyblue.service.CategoryService;
 import com.ismyblue.service.UserService;
+import com.ismyblue.util.JsonConvertUtil;
 
 import net.sf.json.JSONObject;
 
@@ -38,12 +39,13 @@ public class CategoriesServlet extends HttpServlet {
 			BeanUtils.populate(category, request.getParameterMap());
 		} catch (IllegalAccessException | InvocationTargetException e) {
 			e.printStackTrace();
+			response.setStatus(400);
 			response.getWriter().write("failed:" + e.getMessage());
 		}
 		HttpSession session = request.getSession();
 		User loginedUser = (User) session.getAttribute(SessionAttr.USER_STRING);
 		if (loginedUser == null) {
-			response.getWriter().print("failed:用户未登录");
+			response.getWriter().print(JsonConvertUtil.getJsonObject("result", "failed:用户未登录"));
 			return;
 		}
 		// 如果用户不是管理员，只能为自己添加分类
@@ -51,11 +53,12 @@ public class CategoriesServlet extends HttpServlet {
 			category.setUserId(loginedUser.getId());
 		}
 		if(category.getUserId() == 0){
-			response.getWriter().print("failed: 未指定用户id");return ;
+			response.setStatus(400);
+			response.getWriter().write("failed: 未指定用户id");return ;
 		}
 		// 如果userId用户不存在，那么错误
-		if (new UserService().findUser(category.getUserId()) == null) {
-			response.getWriter().print("failed:分类属主用户不存在");
+		if (new UserService().findUser(category.getUserId()) == null) {			
+			response.getWriter().print(JsonConvertUtil.getJsonObject("result", "failed:分类属主用户不存在"));
 			return;
 		}
 
@@ -64,23 +67,23 @@ public class CategoriesServlet extends HttpServlet {
 		if (category.getParentId() == 0) {
 			// 添加分类
 			if (categoryService.addCategory(category)) {
-				response.getWriter().print("success");
+				response.getWriter().print(JsonConvertUtil.getJsonObject("result", "success"));
 				return;
 			} else {
-				response.getWriter().print("failed:添加失败");
+				response.getWriter().print(JsonConvertUtil.getJsonObject("result", "failed:添加失败"));
 				return;
 			}
 		} else {// 如果指定了父亲分类，加入数据库
 			Category parentCategory = categoryService.findCategory(category.getParentId());
 			if (parentCategory == null) {
-				response.getWriter().print("failed:父亲分类不存在");
+				response.getWriter().print(JsonConvertUtil.getJsonObject("result", "failed:父亲分类不存在"));
 				return;
 			}
 			if (categoryService.addCategory(category)) {
-				response.getWriter().print("success");
+				response.getWriter().print(JsonConvertUtil.getJsonObject("result", "success"));
 				return;
 			} else {
-				response.getWriter().print("failed:添加失败");
+				response.getWriter().print(JsonConvertUtil.getJsonObject("result", "failed:添加失败"));
 				return;
 			}
 		}
@@ -93,35 +96,36 @@ public class CategoriesServlet extends HttpServlet {
 			throws ServletException, IOException {
 		String idStr = request.getParameter("id");
 		if (idStr == null) {
-			response.getWriter().print("failed:没有id参数");
+			response.setStatus(400);
+			response.getWriter().write("failed:没有id参数");
 			return;
 		}
 		int id = Integer.parseInt(idStr);
 		System.out.println(id);
 		User loginedUser = (User) request.getSession().getAttribute(SessionAttr.USER_STRING);
 		if (loginedUser == null) {
-			response.getWriter().print("failed:没有登陆信息");
+			response.getWriter().print(JsonConvertUtil.getJsonObject("result", "failed:没有登陆信息"));
 			return;
 		}
 		CategoryService categoryService = new CategoryService();
 		Category findCategory = categoryService.findCategory(id);
 		if (findCategory == null) {
-			response.getWriter().print("failed:分类不存在");
+			response.getWriter().print(JsonConvertUtil.getJsonObject("result", "failed:分类不存在"));
 			return;
 		}
 		// 如果用户不是管理员，判断分类是否属于他
 		if (!loginedUser.getUserPrivilege().equals(UserPrivilegeTbField.ADMIN_STRING)) {
 			if (findCategory.getUserId() != loginedUser.getId()) {
-				response.getWriter().print("failed:此分类不属于登陆用户所有");
+				response.getWriter().print(JsonConvertUtil.getJsonObject("result", "failed:此分类不属于登陆用户所有"));
 				return;
 			}
 		}
 		// 删除分类
 		if (categoryService.removeCategory(id)) {
-			response.getWriter().print("success");
+			response.getWriter().print(JsonConvertUtil.getJsonObject("result", "success"));
 			return;
 		} else {
-			response.getWriter().print("failed:删除失败");
+			response.getWriter().print(JsonConvertUtil.getJsonObject("result", "failed:删除失败"));
 			return;
 		}
 
@@ -136,7 +140,7 @@ public class CategoriesServlet extends HttpServlet {
 
 		User loginedUser = (User) request.getSession().getAttribute(SessionAttr.USER_STRING);
 		if (loginedUser == null) {
-			response.getWriter().print("failed:用户未登录");
+			response.getWriter().print(JsonConvertUtil.getJsonObject("result", "failed:用户未登录"));
 			return;
 		}
 		Category category = new Category();
@@ -144,9 +148,11 @@ public class CategoriesServlet extends HttpServlet {
 			BeanUtils.populate(category, request.getParameterMap());
 		} catch (IllegalAccessException | InvocationTargetException e) {
 			e.printStackTrace();
+			response.setStatus(400);
 			response.getWriter().print("failed:" + e.getMessage());
 		}
 		if (category.getId() == 0) {
+			response.setStatus(400);
 			response.getWriter().print("failed:未指定分类id");
 			return;
 		}
@@ -156,21 +162,21 @@ public class CategoriesServlet extends HttpServlet {
 		// 如果登陆用户是普通用户
 		if (!loginedUser.getUserPrivilege().equals(UserPrivilegeTbField.ADMIN_STRING)) {
 			if (loginedUser.getId() != category.getUserId()) {
-				response.getWriter().print("failed:没有权限");
+				response.getWriter().print(JsonConvertUtil.getJsonObject("result", "failed:没有权限"));
 				return;
 			}
 		}
 		System.out.println(category);
 		CategoryService categoryService = new CategoryService();
 		if (categoryService.findCategory(category.getParentId()).getUserId() != category.getUserId()) {
-			response.getWriter().print("failed:父亲分类和子分类不属于同一用户");
+			response.getWriter().print(JsonConvertUtil.getJsonObject("result", "failed:父亲分类和子分类不属于同一用户"));
 			return;
 		}
 		if (categoryService.updateCategory(category)) {
-			response.getWriter().print("success");
+			response.getWriter().print(JsonConvertUtil.getJsonObject("result", "success"));
 			return;
 		} else {
-			response.getWriter().print("failed:可能原因，此分类不存在/父亲分类不存在/userId不存在");
+			response.getWriter().print(JsonConvertUtil.getJsonObject("result", "failed:可能原因，此分类不存在/父亲分类不存在/userId不存在"));
 			return;
 		}
 	}
@@ -230,6 +236,7 @@ public class CategoriesServlet extends HttpServlet {
 	 * @param request
 	 * @param response
 	 */
+	@Deprecated
 	private void doGetAmount(HttpServletRequest request, HttpServletResponse response) {
 		System.out.println("getAmount");
 	}

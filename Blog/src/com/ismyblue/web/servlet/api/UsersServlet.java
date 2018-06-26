@@ -20,6 +20,7 @@ import com.ismyblue.field.http.SessionAttr;
 import com.ismyblue.field.tbfdvalue.UserPrivilegeTbField;
 import com.ismyblue.field.tbfdvalue.UserStatusTbField;
 import com.ismyblue.service.UserService;
+import com.ismyblue.util.JsonConvertUtil;
 import com.ismyblue.util.MyConvert;
 
 import net.sf.json.JSONArray;
@@ -40,7 +41,8 @@ public class UsersServlet extends HttpServlet {
 			BeanUtils.populate(user, request.getParameterMap());
 		} catch (IllegalAccessException | InvocationTargetException e) {
 			e.printStackTrace();
-			response.getWriter().write("failed: " + e.getMessage());
+			response.setStatus(400);
+			response.getWriter().print("failed:" + e.getMessage());
 		}
 		HttpSession session = request.getSession();
 		User loginedUser = (User) session.getAttribute(SessionAttr.USER_STRING);
@@ -48,7 +50,7 @@ public class UsersServlet extends HttpServlet {
 		if(loginedUser == null || !loginedUser.getUserPrivilege().equals(UserPrivilegeTbField.ADMIN_STRING)){
 			user.setUserPrivilege(UserPrivilegeTbField.USER_STRING);			
 		}
-		user.setUserAvatarUrl("/");
+		user.setUserAvatarUrl("/images/logo.png");
 		user.setUserRegistered(new Date());
 		user.setUserStatus(UserStatusTbField.ENABLE_STRING);
 		user.setLoginIp(request.getRemoteAddr());
@@ -56,11 +58,10 @@ public class UsersServlet extends HttpServlet {
 		
 		UserService userService = new UserService();		
 		if(userService.addUser(user)){
-			response.getWriter().write("success");
+			response.getWriter().print(JsonConvertUtil.getJsonObject("result", "success"));
 		}else{
-			response.getWriter().write("failed: 添加失败");
-		}		
-		
+			response.getWriter().print(JsonConvertUtil.getJsonObject("result", "failed: 添加失败"));
+		}
 	}
 	
 
@@ -72,6 +73,7 @@ public class UsersServlet extends HttpServlet {
 	
 		String idString = request.getParameter("id");
 		if(idString == null){
+			response.setStatus(400);
 			response.getWriter().write("failed: 没有给定id参数");
 			return ;
 		}		
@@ -79,7 +81,8 @@ public class UsersServlet extends HttpServlet {
 		
 		User loginedUser = (User) request.getSession().getAttribute(SessionAttr.USER_STRING);		
 		//如果没有用户登录或者登录用户是普通用户，不能删除一个用户
-		if(loginedUser == null || loginedUser.getUserPrivilege().equals(UserPrivilegeTbField.USER_STRING)){			
+		if(loginedUser == null || loginedUser.getUserPrivilege().equals(UserPrivilegeTbField.USER_STRING)){
+			response.setStatus(400);
 			response.getWriter().write("failed: 您没有权限进行此操作");
 			return ;
 		}
@@ -87,9 +90,9 @@ public class UsersServlet extends HttpServlet {
 		UserService userService = new UserService();
 		
 		if(userService.removeUser(id)){
-			response.getWriter().write("success");
+			response.getWriter().print(JsonConvertUtil.getJsonObject("result", "success"));
 		}else{
-			response.getWriter().write("failed: 删除失败！可能原因：用户不存在。");
+			response.getWriter().print(JsonConvertUtil.getJsonObject("result", "failed: 删除失败！可能原因：用户不存在。"));
 		}		
 		
 			
@@ -107,6 +110,7 @@ public class UsersServlet extends HttpServlet {
 			BeanUtils.populate(user, request.getParameterMap());						
 		} catch (IllegalAccessException | InvocationTargetException e) {
 			e.printStackTrace();
+			response.setStatus(400);
 			response.getWriter().write("failed: " + e.getMessage());
 		}
 		
@@ -114,7 +118,7 @@ public class UsersServlet extends HttpServlet {
 		User loginedUser = (User) session.getAttribute(SessionAttr.USER_STRING);
 		//如果当前没有用户登陆，或者当前登陆用户不是管理员，新增的用户只能是普通用户
 		if(loginedUser == null){
-			response.getWriter().write("failed: 您没有登录，无法修改用户信息");
+			response.getWriter().print(JsonConvertUtil.getJsonObject("result", "failed: 您没有登录，无法修改用户信息"));
 			return ;
 		}		
 		
@@ -137,9 +141,9 @@ public class UsersServlet extends HttpServlet {
 		dbUser.setSiteName(user.getSiteName());		
 				
 		if(userService.updateUser(dbUser)){
-			response.getWriter().write("success");
+			response.getWriter().print(JsonConvertUtil.getJsonObject("result", "success"));
 		}else{
-			response.getWriter().write("failed: 更新失败！可能原因：用户不存在。");
+			response.getWriter().print(JsonConvertUtil.getJsonObject("result", "failed: 更新失败！可能原因：用户不存在。"));
 		}		
 				
 	}
@@ -160,7 +164,7 @@ public class UsersServlet extends HttpServlet {
 		String count = request.getParameter("count");
 		User loginedUser = (User) request.getSession().getAttribute(SessionAttr.USER_STRING);		
 		if(loginedUser == null){
-			response.setStatus(403);
+			response.setStatus(400);
 			response.getWriter().write("failed: 没有登陆信息");return ;
 		}		
 		UserService userService = new UserService();
@@ -173,7 +177,7 @@ public class UsersServlet extends HttpServlet {
 			int id = Integer.parseInt(idString);			
 			User findUser = userService.findUser(id);
 			if(findUser == null){
-				response.getWriter().write("failed: 用户不存在");return ;
+				response.getWriter().print(JsonConvertUtil.getJsonObject("result", "failed: 用户不存在"));return ;
 			}
 			response.getWriter().print(getUsersJsonObjetct(findUser));
 			return ;
@@ -181,13 +185,15 @@ public class UsersServlet extends HttpServlet {
 		}else if(page != null && count != null){
 			//如果不是管理员
 			if(!loginedUser.getUserPrivilege().equals(UserPrivilegeTbField.ADMIN_STRING)){
-				response.getWriter().write("failed: 没有权限");return ;
+				response.getWriter().print(JsonConvertUtil.getJsonObject("result", "failed: 没有权限"));
+				return ;
 			}			
 			//分页输出
 			User[] users = userService.getUsers(Integer.parseInt(page), Integer.parseInt(count));			
 			response.getWriter().print(getUsersJsonObjetct(users));
 			return ;
 		}else{
+			response.setStatus(400);
 			response.getWriter().write("failed: 参数传递错误");return ;
 		}				
 	}
@@ -200,7 +206,7 @@ public class UsersServlet extends HttpServlet {
 	private void doGetAmount(HttpServletRequest request, HttpServletResponse response){
 		UserService userService = new UserService();		
 		try {
-			response.getWriter().write(String.valueOf(userService.getAmount()));
+			response.getWriter().print(JsonConvertUtil.getJsonObject("result", userService.getAmount()));
 		} catch (IOException e) {
 			e.printStackTrace();			
 		}

@@ -57,7 +57,7 @@ public class DoLoginServlet extends HttpServlet {
 			request.getRequestDispatcher("info.jsp").forward(request, response);
 		}else {	
 			request.getSession().setAttribute(SessionAttr.USER_STRING, dbUser);
-			response.sendRedirect("home.jsp");			
+			response.sendRedirect("control.html");			
 		}
 	
 	}
